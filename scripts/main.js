@@ -6,9 +6,10 @@ import GameOverScene from "./scenes/GameOverScene.js";
 import UIScene from "./ui/UIScene.js";
 
 const config = {
-    type: Phaser.AUTO,
-    width: 480,
-    height: 270,
+    //type: Phaser.AUTO,
+    type: Phaser.WEBGL,
+    width: 240*5,
+    height: 210*5,
     physics: {
         default: 'arcade',
         arcade: {
@@ -16,7 +17,7 @@ const config = {
         }
     },
     pixelArt: true,
-    backgroundColor:"#000000",
+    backgroundColor:"#0000cc",
     scene: [
         BootScene,
         PreloadScene,
