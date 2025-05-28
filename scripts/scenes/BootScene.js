@@ -1,31 +1,108 @@
 export default class BootScene extends Phaser.Scene {
     constructor() {
         super('BootScene');
+        this.textoCarga;
+        this.tuit;
     }
 
     //Toda la carga de recursos se hará en el preload
     preload() {
         const progress = this.add.graphics();   //Nos creamos una primitiva gráfica para la barra de progreso
         
-        //Montamos un par de eventitos de control del loader
+        this.textoCarga = this.add.text(5,195*5,"Cargando recursos...");
+
+        //this.tuin=
+
         
+        var valorAnterior=0;
+
         //Uno para el progreso de carga de recursos ( de ahí el string "progress")...
-        this.load.on('progress', value=>{
+        this.load.on('progress', value=>{   //value va a ir desde cero a uno
             progress.clear();   //Limpiamos
             progress.fillStyle(0xffffff, 1);            //Lo tintamos en blanco con opacidad 100%
-            progress.fillRect(5,1000,600*value,16);     //Alteramos su ancho multiplicando por value. Lo de que el 600 esté "hardcodeado" no termino de verlo pero en el ejemplo venía así.
+            progress.fillRect(5,200*5,(240*5*valorAnterior)-10,16);     //Alteramos su ancho (que será el del with del juego) multiplicando por value y esto hace la magia de que la barra vaya "creciendo"
+            //console.log("Valor anterior:"+valorAnterior+" Nuevo valor:"+value);
+            valorAnterior=value;
+            this.tweens.add({
+                
+                targets:this.textoCarga,
+                alpha:0.5,
+                duration:500,
+                yoyo:-1,
+                onComplete: (tween, target, param) => {
+                    progress.clear();   //Limpiamos
+                    progress.fillRect(5,200*5,(240*5*value)-10,16); 
+                },
+                
+            });
+            
         });
 
         //Otro para cuando se ha completado toda la carga (Obviamente se rige con "complete")...
         this.load.on('complete', () =>
         {
-            progress.destroy();                 //Borramos la barra de progreso
             
-            this.scene.start("PreloadScene");     //Cargamos la siguiente escena
+            
+            this.tweens.add({
+                
+                targets:progress,
+                fillStyle:"0x00ff00",
+                duration:1000,
+                
+                onStart: (tween, target, param) => {
+                    this.textoCarga.setText("Carga completa");
+                    progress.clear();   //Limpiamos
+                    progress.fillStyle(0x33ff33, 1);            //Lo tintamos en blanco con opacidad 100%
+                    progress.fillRect(5,200*5,(240*5*1)-10,16);     
+                },
+                onComplete: (tween, target, param) => {
+                    
+                    this.scene.start("PreloadScene");     //Cargamos la siguiente escena      
+                },
+                
+            });
+            
         });
+
+        //Cargamos los distintos assets que vamos a necesitar (sprites, spritesheets, sonidos y música)
+        
+        this.textoCarga.setText("Cargando spritesheets...");
+
+        //** SPRITESHEETS **/
+        this.load.spritesheet('playerAnims', 'assets/spritesheets/player/playerAnims.png', { frameWidth: 48, frameHeight: 48 });                //Anims del player
+        this.load.spritesheet('playerBullets', 'assets/spritesheets/bullets/PlayerBullets.png', { frameWidth: 32, frameHeight: 32 });           //Anims para los disparos del player
+
+        this.textoCarga.setText("Cargando sonidos...");
+
+        //** SONIDOS **/
+        
+        this.load.audio('mainTheme', 'assets/audio/themes/CAWunused.mp3');          //Tema principal
+        this.load.audio('playerShoot', 'assets/audio/SFXs/playerShoot.wav');        //Disparo del player
+        this.load.audio('midExplosion', 'assets/audio/SFXs/midExplosion.wav');      //Explosión media
+        this.load.audio('bulletImpact', 'assets/audio/SFXs/bulletImpact.wav');      //Impacto de bala sobre el player o un enemigo
+
+        this.textoCarga.setText("Cargando mapa de tiles...");
+
+        //** TILEMAP **/
+        this.load.image("tiles","assets/tilemap/Tileset.png");
+        this.load.tilemapTiledJSON("map","assets/tilemap/unir1943.json");
+
+
+        //** FUENTES **/
+        this.load.bitmapFont('blackOutlineFont', 'assets/fonts/fuenteOutLineNegro.png', 'assets/fonts/fuenteOutLineNegro.fnt');
+        this.load.bitmapFont('redOutlineFont', 'assets/fonts/fuenteOutLineRojo.png', 'assets/fonts/fuenteOutLineRojo.fnt');
+
     }
 
     create() {
-        //this.scene.start('PreloadScene');
+        //this.textoCarga = this.add.text(5,195*5,"Cargando recursos...");
+        //this.textoCarga.setText("Podemos alterar el texto sin problemas");
+        
+        
     }
+
+    update() {
+
+    }
+
 }
