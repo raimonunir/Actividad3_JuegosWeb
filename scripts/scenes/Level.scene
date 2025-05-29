@@ -1,0 +1,38 @@
+{
+    "id": "01aefa93-6044-4159-8358-7e91310aa05f",
+    "sceneType": "SCENE",
+    "settings": {
+        "exportClass": true,
+        "autoImport": true,
+        "importFileExtension": true,
+        "preloadPackFiles": [],
+        "createMethodName": "editorCreate",
+        "sceneKey": "Level",
+        "borderWidth": 640,
+        "borderHeight": 420
+    },
+    "displayList": [
+        {
+            "type": "Layer",
+            "id": "098f21ff-800b-4902-ae70-5eacd5225ce2",
+            "label": "capaJugable",
+            "displayName": "Capa Jugable",
+            "list": [
+                {
+                    "type": "Container",
+                    "id": "3192f48f-c49b-4884-b6f3-20fc5ae34ebd",
+                    "label": "grupoEnemigos",
+                    "displayName": "Grupo Enemigos",
+                    "scope": "CLASS"
+                }
+            ]
+        }
+    ],
+    "plainObjects": [],
+    "meta": {
+        "app": "Phaser Editor - Scene Editor",
+        "url": "https://phaser.io/editor",
+        "contentType": "phasereditor2d.core.scene.SceneContentType",
+        "version": 5
+    }
+}
