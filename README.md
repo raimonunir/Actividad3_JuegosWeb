@@ -57,11 +57,6 @@ assets/
 ├── sounds/           # Efectos de sonido y música
 ```
 
-## 🚀 Puesta en marcha
-
-1. Abre `index.html` en tu navegador.
-2. Asegúrate de tener todos los archivos en una estructura de carpetas respetando la organización mencionada.
-3. No se requiere servidor ni instalación adicional: Phaser se carga desde CDN.
 
 ## 👥 Colaboración
 
