@@ -1,0 +1,87 @@
+{
+    "id": "f175c180-a887-4203-9043-ae44402ff845",
+    "sceneType": "PREFAB",
+    "settings": {
+        "exportClass": true,
+        "autoImport": true,
+        "importFileExtension": true,
+        "preloadMethodName": "",
+        "preloadPackFiles": [],
+        "createMethodName": "",
+        "borderWidth": 32,
+        "borderHeight": 32
+    },
+    "displayList": [
+        {
+            "type": "ArcadeSprite",
+            "id": "fb9b37f9-817a-4056-b5c9-e28f27ef4082",
+            "label": "avion01p1",
+            "texture": {
+                "key": "Avion01p1"
+            },
+            "animationPlayMethod": 1,
+            "animationKey": "Avion01p",
+            "body.bounce.x": 1,
+            "bodyGeometry": 0,
+            "radius": 11,
+            "body.width": 128,
+            "body.height": 128,
+            "body.offset.x": 5,
+            "body.offset.y": 2
+        }
+    ],
+    "plainObjects": [],
+    "meta": {
+        "app": "Phaser Editor - Scene Editor",
+        "url": "https://phaser.io/editor",
+        "contentType": "phasereditor2d.core.scene.SceneContentType",
+        "version": 5
+    },
+    "prefabProperties": [
+        {
+            "name": "velocidadX",
+            "label": "VelocidadX",
+            "tooltip": "",
+            "defValue": 50,
+            "customDefinition": false,
+            "type": {
+                "id": "number"
+            }
+        },
+        {
+            "name": "velocidadY",
+            "label": "VelocidadY",
+            "tooltip": "",
+            "defValue": 20,
+            "customDefinition": false,
+            "type": {
+                "id": "number"
+            }
+        },
+        {
+            "name": "distancia",
+            "label": "Distancia",
+            "tooltip": "",
+            "defValue": 20,
+            "customDefinition": false,
+            "type": {
+                "id": "number"
+            }
+        },
+        {
+            "name": "enemigoTipo",
+            "label": "Tipo Enemigo",
+            "tooltip": "",
+            "defValue": "normal",
+            "customDefinition": false,
+            "type": {
+                "id": "option",
+                "options": [
+                    "normal",
+                    "miniboss",
+                    "boss"
+                ]
+            }
+        }
+    ]
+}
