@@ -6,6 +6,7 @@ export default class OptionsScene extends Phaser.Scene {
         this.noSelecitonChar = ' ';
         this.musicVolumeText = "Music volume:";
         this.soundVolumeText = "SFX volume:";
+        this.creditsText = "View Credits";
         this.exitText = "Exit";
         this.musicVolumeValue = 40;
         this.soundVolumeValue = 100;
@@ -25,10 +26,12 @@ export default class OptionsScene extends Phaser.Scene {
          this.add.rectangle(0, 0, this.scale.width, this.scale.height, 0x000000)
         .setOrigin(0, 0);
 
-        this.musicVolumeMenuText = this.add.bitmapText((this.scale.width / 2), (this.scale.height / 2)-this.lineSpace, "blackOutlineFont", this.selectionChar+this.musicVolumeText+this.musicVolumeValue);
+        this.musicVolumeMenuText = this.add.bitmapText((this.scale.width / 2), (this.scale.height / 2)-this.lineSpace*2, "blackOutlineFont", this.selectionChar+this.musicVolumeText+this.musicVolumeValue);
         this.musicVolumeMenuText.setFontSize(this.fontSize).setOrigin(0.5);
-        this.soundVolumeMenuText = this.add.bitmapText(this.scale.width / 2, this.scale.height / 2, "blackOutlineFont", this.noSelecitonChar+this.soundVolumeText+this.soundVolumeValue);
+        this.soundVolumeMenuText = this.add.bitmapText(this.scale.width / 2, (this.scale.height / 2)-this.lineSpace, "blackOutlineFont", this.noSelecitonChar+this.soundVolumeText+this.soundVolumeValue);
         this.soundVolumeMenuText.setFontSize(this.fontSize).setOrigin(0.5);
+        this.creditsMenuText = this.add.bitmapText(this.scale.width / 2, this.scale.height / 2, "blackOutlineFont", this.noSelecitonChar+this.creditsText+this.noSelecitonChar);
+        this.creditsMenuText.setFontSize(this.fontSize).setOrigin(0.5);
         this.exitMenuText = this.add.bitmapText(this.scale.width / 2, (this.scale.height / 2)+this.lineSpace, "blackOutlineFont", this.noSelecitonChar+this.exitText+this.noSelecitonChar);
         this.exitMenuText.setFontSize(this.fontSize).setOrigin(0.5);
 
@@ -101,6 +104,11 @@ export default class OptionsScene extends Phaser.Scene {
             } else if (this.currentSelection === 2){
                 if(Phaser.Input.Keyboard.JustDown(this.spaceKey) || Phaser.Input.Keyboard.JustDown(this.enterKey)){
                     this.currentSelection = 0; // rest currectSelection;
+                    this.scene.start('CreditsScene');
+                }
+            } else if (this.currentSelection === 3){
+                if(Phaser.Input.Keyboard.JustDown(this.spaceKey) || Phaser.Input.Keyboard.JustDown(this.enterKey)){
+                    this.currentSelection = 0; // rest currectSelection;
                     this.scene.start('MenuScene');
                 }
             } else {
@@ -165,7 +173,7 @@ export default class OptionsScene extends Phaser.Scene {
     setSelection(index) {
         // limit current selection: 0, 1, 2
         index < 0 ? index = 0 : index = index;
-        index > 2 ? index = 2 : index = index;
+        index > 3 ? index = 3 : index = index;
         this.currentSelection = index;
 
         let text = '';
@@ -178,6 +186,8 @@ export default class OptionsScene extends Phaser.Scene {
                 // sound
                 text = this.beautifyTextVolume(false, this.soundVolumeText+this.soundVolumeValue, this.soundVolumeValue)
                 this.soundVolumeMenuText.setText(text);
+                // view credits
+                this.creditsMenuText.setText(this.noSelecitonChar+this.creditsText+this.noSelecitonChar);
                 // exit
                 this.exitMenuText.setText(this.noSelecitonChar+this.exitText+this.noSelecitonChar);
                 break;
@@ -188,6 +198,8 @@ export default class OptionsScene extends Phaser.Scene {
                 // sound
                 text = this.beautifyTextVolume(true, this.soundVolumeText+this.soundVolumeValue, this.soundVolumeValue)
                 this.soundVolumeMenuText.setText(text);
+                // view credits
+                this.creditsMenuText.setText(this.noSelecitonChar+this.creditsText+this.noSelecitonChar);
                 // exit
                 this.exitMenuText.setText(this.noSelecitonChar+this.exitText+this.noSelecitonChar);
                 break;
@@ -198,6 +210,20 @@ export default class OptionsScene extends Phaser.Scene {
                 // sound
                 text = this.beautifyTextVolume(false, this.soundVolumeText+this.soundVolumeValue, this.soundVolumeValue)
                 this.soundVolumeMenuText.setText(text);
+                // view credits
+                this.creditsMenuText.setText(this.selectionChar+this.creditsText+this.noSelecitonChar);
+                // exit
+                this.exitMenuText.setText(this.noSelecitonChar+this.exitText+this.noSelecitonChar);
+                break;
+            case 3:
+                // music
+                text = this.beautifyTextVolume(false, this.musicVolumeText+this.musicVolumeValue, this.musicVolumeValue)
+                this.musicVolumeMenuText.setText(text);
+                // sound
+                text = this.beautifyTextVolume(false, this.soundVolumeText+this.soundVolumeValue, this.soundVolumeValue)
+                this.soundVolumeMenuText.setText(text);
+                // view credits
+                this.creditsMenuText.setText(this.noSelecitonChar+this.creditsText+this.noSelecitonChar);
                 // exit
                 this.exitMenuText.setText(this.selectionChar+this.exitText+this.noSelecitonChar);
                 break;

@@ -18,6 +18,7 @@ const config = {
         OptionsScene,
         GameScene,
         UIScene,
-        GameOverScene
+        GameOverScene,
+        CreditsScene
     ]
 };
