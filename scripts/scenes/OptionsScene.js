@@ -7,8 +7,8 @@ export default class OptionsScene extends Phaser.Scene {
         this.musicVolumeText = "Music volume:";
         this.soundVolumeText = "SFX volume:";
         this.exitText = "Exit";
-        this.musicVolumeValue = 80;
-        this.soundVolumeValue = 80;
+        this.musicVolumeValue = 40;
+        this.soundVolumeValue = 100;
         this.volumeStepSize = 5;
         this.minVolume = 0;
         this.maxVolume = 100;
@@ -29,8 +29,26 @@ export default class OptionsScene extends Phaser.Scene {
         this.musicVolumeMenuText.setFontSize(this.fontSize).setOrigin(0.5);
         this.soundVolumeMenuText = this.add.bitmapText(this.scale.width / 2, this.scale.height / 2, "blackOutlineFont", this.noSelecitonChar+this.soundVolumeText+this.soundVolumeValue);
         this.soundVolumeMenuText.setFontSize(this.fontSize).setOrigin(0.5);
-        this.exitMenuText = this.add.bitmapText(this.scale.width / 2, (this.scale.height / 2)+this.lineSpace, "blackOutlineFont", this.noSelecitonChar+this.exitText);
+        this.exitMenuText = this.add.bitmapText(this.scale.width / 2, (this.scale.height / 2)+this.lineSpace, "blackOutlineFont", this.noSelecitonChar+this.exitText+this.noSelecitonChar);
         this.exitMenuText.setFontSize(this.fontSize).setOrigin(0.5);
+
+        // get musicVolume
+        if(this.registry.get('musicVolume') != null){
+            this.musicVolumeValue = this.registry.get('musicVolume') * 100;
+        }else{
+            this.registry.set('musicVolume', this.musicVolumeValue/100);
+        }
+        // update music volume
+        this.setMusicVolume(this.musicVolumeValue);
+
+        // get sfx volume
+        if(this.registry.get('sfxVolume') != null){
+            this.soundVolumeValue = this.registry.get('sfxVolume') * 100;
+        }else{
+            this.registry.set('sfxVolume', this.soundVolumeValue/100);
+        }
+        // update sound volume
+        this.setSoundVolume(this.soundVolumeValue, false);
 
 
         // keys
@@ -44,8 +62,13 @@ export default class OptionsScene extends Phaser.Scene {
     }
 
     update(time) {
-        // up/down keys
+
+
+        
+        // input
         if (time - this.lastKeyPressedTime > this.inputDelay) {
+
+            // seleccition
             if (this.cursors.down.isDown) {
                 this.setSelection(this.currentSelection+1);
                 this.lastKeyPressedTime = time;
@@ -53,62 +76,133 @@ export default class OptionsScene extends Phaser.Scene {
                 this.setSelection(this.currentSelection-1);
                 this.lastKeyPressedTime = time;
             }
-        }
+        
 
-        // Enter
-        if (Phaser.Input.Keyboard.JustDown(this.enterKey) || Phaser.Input.Keyboard.JustDown(this.spaceKey)) {
+            // modify, enter
             if (this.currentSelection === 0) {
-                this.setMusicVolume(this.musicVolumeValue += this.volumeStepSize);
+                if (Phaser.Input.Keyboard.JustDown(this.enterKey) || Phaser.Input.Keyboard.JustDown(this.spaceKey) || this.cursors.right.isDown) {
+                    this.setMusicVolume(this.musicVolumeValue += this.volumeStepSize);
+                    this.lastKeyPressedTime = time;
+                }
+
+                if (this.cursors.left.isDown){
+                    this.setMusicVolume(this.musicVolumeValue -= this.volumeStepSize);
+                    this.lastKeyPressedTime = time;
+                }
             } else if (this.currentSelection === 1){
-                this.setSoundVolume(this.soundVolumeValue += this.volumeStepSize);
+                if (Phaser.Input.Keyboard.JustDown(this.enterKey) || Phaser.Input.Keyboard.JustDown(this.spaceKey) || this.cursors.right.isDown) {
+                    this.setSoundVolume(this.soundVolumeValue += this.volumeStepSize);
+                    this.lastKeyPressedTime = time;
+                }
+                if (this.cursors.left.isDown){
+                    this.setSoundVolume(this.soundVolumeValue -= this.volumeStepSize);
+                    this.lastKeyPressedTime = time;
+                }
             } else if (this.currentSelection === 2){
-                this.currentSelection = 0; // rest currectSelection;
-                this.scene.start('MenuScene');
+                if(Phaser.Input.Keyboard.JustDown(this.spaceKey) || Phaser.Input.Keyboard.JustDown(this.enterKey)){
+                    this.currentSelection = 0; // rest currectSelection;
+                    this.scene.start('MenuScene');
+                }
             } else {
-                
+                console.error("Unexpected currentSelection:"+this.currentSelection);
             }
         }
+        
     }
 
     setMusicVolume(volume){
+        // limit the volume between 0 and 100
         volume < this.minVolume ? volume = this.minVolume : volume = volume;
         volume > this.maxVolume ? volume = this.maxVolume : volume = volume;
         this.musicVolumeValue = volume;
-        this.musicVolumeMenuText.setText(this.selectionChar+this.musicVolumeText+this.musicVolumeValue);
+    
+        this.registry.set('musicVolume', this.musicVolumeValue/100);
+
+        let text = this.beautifyTextVolume(true, this.musicVolumeText+this.musicVolumeValue, this.musicVolumeValue)
+        this.musicVolumeMenuText.setText(text);
     }
 
-    setSoundVolume(volume){
+    setSoundVolume(volume, isSelected=true){
+        // limit the volume between 0 and 100
         volume < this.minVolume ? volume = this.minVolume : volume = volume;
         volume > this.maxVolume ? volume = this.maxVolume : volume = volume;
         this.soundVolumeValue = volume;
-        this.soundVolumeMenuText.setText(this.selectionChar+this.soundVolumeText+this.soundVolumeValue);
+
+        this.registry.set('sfxVolume', this.soundVolumeValue/100);
+
+        let text = this.beautifyTextVolume(isSelected, this.soundVolumeText+this.soundVolumeValue, this.soundVolumeValue)
+        this.soundVolumeMenuText.setText(text);
+    }
+
+    beautifyTextVolume(isSelected, volumeText, value){
+        // beautify text
+        let text = ''; 
+        if(value < 10){
+            if(isSelected){
+                text = this.noSelecitonChar+this.noSelecitonChar+this.selectionChar + volumeText + this.noSelecitonChar+this.noSelecitonChar+this.noSelecitonChar+this.noSelecitonChar;
+            }else{
+                text = this.noSelecitonChar+this.noSelecitonChar+this.noSelecitonChar + volumeText + this.noSelecitonChar+this.noSelecitonChar+this.noSelecitonChar+this.noSelecitonChar;
+            }
+        }else if(value < 100){
+            if(isSelected){
+                text = this.noSelecitonChar+this.selectionChar + volumeText + this.noSelecitonChar+this.noSelecitonChar;
+            }else{
+                text = this.noSelecitonChar+this.noSelecitonChar + volumeText + this.noSelecitonChar+this.noSelecitonChar;
+            }
+        }else if(value == 100){
+            if(isSelected){
+                text = this.selectionChar + volumeText ;
+            }else{
+                text = this.noSelecitonChar + volumeText ;
+            }
+        } else{
+            log.error("NO implemented");
+        }
+        
+        return text;
     }
 
     setSelection(index) {
-        console.log(index);
+        // limit current selection: 0, 1, 2
         index < 0 ? index = 0 : index = index;
         index > 2 ? index = 2 : index = index;
-        console.log("index after:"+index);
         this.currentSelection = index;
+
+        let text = '';
 
         switch(this.currentSelection){
             case 0:
-                this.musicVolumeMenuText.setText(this.selectionChar+this.musicVolumeText+this.musicVolumeValue);
-                this.soundVolumeMenuText.setText(this.noSelecitonChar+this.soundVolumeText+this.soundVolumeValue);
-                this.exitMenuText.setText(this.noSelecitonChar+this.exitText);
+                // music
+                text = this.beautifyTextVolume(true, this.musicVolumeText+this.musicVolumeValue, this.musicVolumeValue)
+                this.musicVolumeMenuText.setText(text);
+                // sound
+                text = this.beautifyTextVolume(false, this.soundVolumeText+this.soundVolumeValue, this.soundVolumeValue)
+                this.soundVolumeMenuText.setText(text);
+                // exit
+                this.exitMenuText.setText(this.noSelecitonChar+this.exitText+this.noSelecitonChar);
                 break;
             case 1:
-                this.musicVolumeMenuText.setText(this.noSelecitonChar+this.musicVolumeText+this.musicVolumeValue);
-                this.soundVolumeMenuText.setText(this.selectionChar+this.soundVolumeText+this.soundVolumeValue);
-                this.exitMenuText.setText(this.noSelecitonChar+this.exitText);
+                // music
+                text = this.beautifyTextVolume(false, this.musicVolumeText+this.musicVolumeValue, this.musicVolumeValue)
+                this.musicVolumeMenuText.setText(text);
+                // sound
+                text = this.beautifyTextVolume(true, this.soundVolumeText+this.soundVolumeValue, this.soundVolumeValue)
+                this.soundVolumeMenuText.setText(text);
+                // exit
+                this.exitMenuText.setText(this.noSelecitonChar+this.exitText+this.noSelecitonChar);
                 break;
             case 2:
-                this.musicVolumeMenuText.setText(this.noSelecitonChar+this.musicVolumeText+this.musicVolumeValue);
-                this.soundVolumeMenuText.setText(this.noSelecitonChar+this.soundVolumeText+this.soundVolumeValue);
-                this.exitMenuText.setText(this.selectionChar+this.exitText);
+                // music
+                text = this.beautifyTextVolume(false, this.musicVolumeText+this.musicVolumeValue, this.musicVolumeValue)
+                this.musicVolumeMenuText.setText(text);
+                // sound
+                text = this.beautifyTextVolume(false, this.soundVolumeText+this.soundVolumeValue, this.soundVolumeValue)
+                this.soundVolumeMenuText.setText(text);
+                // exit
+                this.exitMenuText.setText(this.selectionChar+this.exitText+this.noSelecitonChar);
                 break;
             default:
-                console.log("ERROR OptionsScene exception");
+                console.error("ERROR OptionsScene, no currectSelection implemented");
         }
     }
 }

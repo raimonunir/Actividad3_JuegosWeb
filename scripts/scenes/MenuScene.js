@@ -18,9 +18,7 @@ export default class MenuScene extends Phaser.Scene {
             this.add.image(this.scale.width / 2, this.scale.height / 2, 'menuStart').setOrigin(0.5).setScale(4),
             this.add.image(this.scale.width / 2, this.scale.height / 2, 'menuOptions').setOrigin(0.5).setScale(4).setVisible(false)
         ];
-
-
-
+        
         // keys
         this.cursors = this.input.keyboard.createCursorKeys();
         this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
