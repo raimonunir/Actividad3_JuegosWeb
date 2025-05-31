@@ -48,14 +48,11 @@ export default class CollisionManager {
     handlePlayerEnemyCollision(playerSprite, enemySprite) {
         // Desactivar o quitar el enemigo
         if (enemySprite.active) {
-            enemySprite.disableBody(true, true);
-            // reproducir animación de explosión en las coordenadas del enemigo
-            if (this.scene.vfxManager) {
-                this.scene.vfxManager.playExplosion(enemySprite.x, enemySprite.y);
-            }
-            // sonido de explosión
-            if (this.scene.soundManager) {
-                this.scene.soundManager.playPlayerShoot();
+            // Reproducir animación de explosión:
+            if (typeof enemySprite.morir === 'function') {
+                enemySprite.recibirDanyo(enemySprite.vida); // mata de un golpe
+            } else {
+                enemySprite.disableBody(true, true);
             }
         }
 
@@ -68,7 +65,6 @@ export default class CollisionManager {
                 // Si no existe ese método, simplemente desactivamos al jugador:
                 playerSprite.disableBody(true, true);
             }
-
             // Si el jugador “muere”, podrías saltar a GameOver:
             if (!playerSprite.active) {
                 this.scene.scene.start('GameOverScene');
@@ -98,9 +94,9 @@ export default class CollisionManager {
             if (this.scene.soundManager) {
                 this.scene.soundManager.playBulletImpact();
             }
-            // Sumar puntuación (por ejemplo, si tu UIManager):
-            if (this.scene.uiManager && typeof this.scene.uiManager.addScore === 'function') {
-                this.scene.uiManager.addScore(10);
+            // Sumar puntuación:
+            if (this.scene.uiManager && typeof this.scene.uiManager.sumaScoreP1 === 'function') {
+                this.scene.uiManager.sumaScoreP1(10);
             }
         }
     }
