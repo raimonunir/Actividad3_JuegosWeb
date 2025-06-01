@@ -20,6 +20,9 @@ export default class AvionFB01 extends Enemy {
 		// Write your code here.
 		this.configurarTipo();
 		this.flipY = 0;
+		
+        this.anchoPantalla = 240;
+        this.altoPantalla = 210;
 
 		//this.scaleX = 3;
 		//this.scaleY = 3;
@@ -28,7 +31,7 @@ export default class AvionFB01 extends Enemy {
         this.vida *= 5;
 
 		// Creamos un grupo para almacenar los disparos.
-		this.disparos = this.scene.add.group();
+		this.disparos = this.scene.physics.add.group();
 		// Crear armas como sprites independientes
 		this.armas = [];
 
@@ -256,12 +259,14 @@ export default class AvionFB01 extends Enemy {
     			this.armas[0].body.checkCollision.none = true;
 			}
 		}
-
+		/*
+		// AQUÍ HAY UN CAMBIO!!!
 		// Actualizaremos el UPDATE de las Balas que se encuentran en el grupo:
 		this.disparos.getChildren().forEach(disparo =>
 		{
 			if (disparo.update) disparo.update();
 		});
+		*/
 	}
 
 
@@ -307,9 +312,11 @@ export default class AvionFB01 extends Enemy {
 		this.setScale(10);
 
         // 3.- Spawneará en la mitad inferior de la pantalla y no en la superior.
-		this.x = this.scene.cameras.main.centerX;
+		//this.x = this.scene.cameras.main.centerX;
+		this.x = this.anchoPantalla/2;
 		//this.y = this.scene.cameras.main.height + this.height;
-		this.y = this.scene.cameras.main.height + (this.height * this.scaleY);
+		//this.y = this.scene.cameras.main.height + (this.height * this.scaleY);
+		this.y = this.altoPantalla + (this.height * this.scaleY);
 		//this.y = this.scene.cameras.main.height + this.displayHeight;
 
 
@@ -558,10 +565,10 @@ export default class AvionFB01 extends Enemy {
 			const objetivoY = jugador.y;
 			*/
 
-			const jugador = this.scene.player;
-			console.log("Jugador X: ", jugador.x);
+			const jugador = this.scene.player.sprite;
+			//console.log("Jugador X: ", jugador.x);
 			const objetivoX = jugador.x;
-			console.log("Jugador Y: ", jugador.y);
+			//console.log("Jugador Y: ", jugador.y);
 			const objetivoY = jugador.y;
 
 			// Calculamos la dirección hacia el jugador...
@@ -603,11 +610,17 @@ export default class AvionFB01 extends Enemy {
 				}
 
 				// Comprobar si sale de la pantalla
-				if (this.y > this.scene.cameras.main.height + this.height ||
+				/*if (this.y > this.scene.cameras.main.height + this.height ||
 					this.y < -this.height ||
 					this.x < -this.width ||
 					this.x > this.scene.cameras.main.width + this.width)
+				*/
+				if (this.y > this.altoPantalla + this.height ||
+					this.y < -this.height ||
+					this.x < -this.width ||
+					this.x > this.anchoPantalla + this.width)
 				{
+					console.warn("CAÑÓN PUFFF!!!");
 					this.destroy();
 				}
 			};
@@ -617,11 +630,17 @@ export default class AvionFB01 extends Enemy {
 			// Para las otras balas normales
 			disparo.update = function ()
 			{
-				if (this.y > this.scene.cameras.main.height + this.height ||
+				/*if (this.y > this.scene.cameras.main.height + this.height ||
 					this.y < -this.height ||
 					this.x < -this.width ||
 					this.x > this.scene.cameras.main.width + this.width)
+				*/
+				if (this.y > this.altoPantalla + this.height ||
+					this.y < -this.height ||
+					this.x < -this.width ||
+					this.x > this.anchoPantalla + this.width)
 				{
+					console.warn("BALA PUFFF!!!");
 					this.destroy();
 				}
 			};
@@ -629,7 +648,8 @@ export default class AvionFB01 extends Enemy {
 		//*/
 
 		// Agregaremos las balas a un grupo para gestionar mejor las colisiones y destrucciones.
-		this.disparos.add(disparo);
+		//this.disparos.add(disparo);
+		this.scene.enemyManager.disparos.add(disparo);
 	}
 
 	//*

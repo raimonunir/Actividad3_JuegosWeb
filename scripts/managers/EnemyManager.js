@@ -13,14 +13,29 @@ export class EnemyManager
         console.log("EnemyManager.js - constructor()");
 
         this.scene = scene;
-        this.enemies = scene.add.group(); // Agrupa los enemigos para actualizarlos
+        this.enemies = scene.physics.add.group(); // Agrupamos los Enemigos para actualizarlos y tenerlos a mano para colisiones.
+        this.disparos = scene.physics.add.group(); // Agrupamos los Disparos para actualizarlos y tenerlos a mano para colisiones.
 
         // Determinaremos la distancia que habrá entre los bordes de la pantalla y el Spawn.
         this.distanciaBorde = 50;
+        this.inicioPantalla = 0;
+        this.finalPantalla = 240;
 
         //this.spawnX = this.scene.cameras.main.width / 2;
         //this.spawnY = -50;
     }
+
+    // AQUÍ CAMBIO!!!
+    /*preUpload(time, delta)
+    {
+		super.preUpdate(time, delta);
+
+		// Actualizaremos el UPDATE de las Balas que se encuentran en el grupo:
+		this.disparos.getChildren().forEach(disparo =>
+        {
+            if (disparo.update) disparo.update();
+        });
+    }*/
 
     update(time, delta)
     {
@@ -31,6 +46,15 @@ export class EnemyManager
             if (enemy.update)
             {
                 enemy.update(time, delta);
+            }
+        });
+
+        // Actualizaremos el UPDATE de las Balas que se encuentran en el grupo:
+		this.disparos.getChildren().forEach(disparo =>
+        {
+            if (disparo.update)
+            {
+                disparo.update(time, delta);
             }
         });
     }
@@ -46,7 +70,8 @@ export class EnemyManager
         const spawnY = -50;
         */
 
-        const spawnX = x !== null ? x : Phaser.Math.Between(this.distanciaBorde, this.scene.cameras.main.width - this.distanciaBorde);
+        //const spawnX = x !== null ? x : Phaser.Math.Between(this.distanciaBorde, this.scene.scale.width - this.distanciaBorde);
+        const spawnX = x !== null ? x : Phaser.Math.Between(this.inicioPantalla, this.finalPantalla);
         const spawnY = y !== null ? y : -50;
 
         //let prefabKey = "";
@@ -95,7 +120,8 @@ export class EnemyManager
         this.scene.physics.add.existing(enemigo);
         this.enemies.add(enemigo);
         
-        console.log(`Spawneado Avión tipo ${tipo} en la posición x: ${spawnX}, y: ${spawnY}`);
+        
+        //console.log(`Spawneado Avión tipo ${tipo} en la posición x: ${spawnX}, y: ${spawnY}`);
 
         return enemigo;
     }
@@ -120,7 +146,7 @@ export class EnemyManager
         {
             this.scene.time.delayedCall(i * intervalo, () =>
             {
-                const posX = isXValida ? x : Phaser.Math.Between(this.distanciaBorde, this.scene.cameras.main.width - this.distanciaBorde);
+                const posX = isXValida ? x : Phaser.Math.Between(this.distanciaBorde, this.finalPantalla - this.distanciaBorde);
 
                 //this.spawnEnemigo(tipo, x);
                 
@@ -146,12 +172,17 @@ export class EnemyManager
         
         this.spawnX = this.scene.cameras.main.width / 5;
         this.spawnEnemigos(5, 1, 1500);*/
-        
+        /*0, 240
         const posDerecha = this.scene.cameras.main.width / 1.25;
         const posIzquierda = this.scene.cameras.main.width / 5;
         const posCentral = this.scene.cameras.main.width / 2;
         const posAleatoria = Phaser.Math.Between(this.distanciaBorde, this.scene.cameras.main.width - this.distanciaBorde);
-
+        */
+        const posDerecha = this.finalPantalla - this.distanciaBorde;
+        const posIzquierda = this.inicioPantalla + this.distanciaBorde;
+        const posCentral = this.finalPantalla / 2;
+        const posAleatoria = Phaser.Math.Between(this.inicioPantalla, this.finalPantalla);
+        
         
         this.scene.time.delayedCall(1000, () => this.spawnMultiples(5, 1, 1500, {velocidadY: 60}, posDerecha));
         this.scene.time.delayedCall(1000, () => this.spawnMultiples(5, 1, 1500, {velocidadY: 60}, posIzquierda));

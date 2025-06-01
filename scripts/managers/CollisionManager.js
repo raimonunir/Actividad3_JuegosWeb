@@ -4,26 +4,45 @@
     BalasEnemigo  - Jugador
  */
 
-export class CollisionManager {
-    constructor(scene, player, enemies, playerBullets, enemyBullets) {
+export class CollisionManager
+{
+    constructor(scene)//, player, enemies, playerBullets = null, enemyBullets = null)
+    {
+        /*
             this.scene         = scene;
             this.player        = player;
             this.enemies       = enemies;
             this.playerBullets = playerBullets;
             this.enemyBullets  = enemyBullets;
+        */
+        
+            //console.warn("Player X constructor (creado y listo)", scene.player.sprite.x);
+            //console.warn("Enemy X constructor (no creados aún)", enemies);
+            this.scene         = scene;
+            this.player        = scene.player.sprite;
+            this.enemigos       = scene.enemyManager.enemies.list;
+            this.playerBullets = scene.playerBullets;
+
+            //console.log("Colisión Jugador: ", this.player.body.enable);
+            //console.log("Colisión Enemigos: ", this.enemigos.body.enable);
+            //console.log("Colisión Bullets: ", this.playerBullets.body.enable);
+            //this.enemyBullets  = enemyBullets;
     }
 
     // Configuramos todas las colisiones necesarias.
     // Se debe invocar en la escena del juego después de instancciar todos los grupos.
-    setupCollisions() {
+    setupCollisions()
+    {
+        //console.warn("Player X setupCollisions", this.player.x);
+        //console.warn("Enemy X", this.enemies);
         // Player - Enemigos: si el jugador choca con un enemigo, se llama a handlePlayerEnemy.
         this.scene.physics.add.collider(
             this.player,
-            this.enemies,
+            this.enemigos,
             this.handlePlayerEnemyCollision,  
             null,
             this 
-        );
+        );/*
         // BalasJugador - Enemigos: cuando una bala del jugador toca a un enemigo, llamamos a handleBulletEnemy.
         // Usamos overlap porque la bala no “empuja” al enemigo, simplemente lo impacta.
         this.scene.physics.add.overlap(
@@ -41,11 +60,13 @@ export class CollisionManager {
             this.handleEnemyBulletPlayerCollision,
             null,
             this
-        );
+        );*/
     }
 
     // Cuando el jugador choca con un enemigo.
-    handlePlayerEnemyCollision(playerSprite, enemySprite) {
+    handlePlayerEnemyCollision(playerSprite, enemySprite)
+    {
+        console.error("Colisión.");//, this.player.x);
         // Desactivar o quitar el enemigo
         if (enemySprite.active) {
             // Reproducir animación de explosión:

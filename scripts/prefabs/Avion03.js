@@ -24,17 +24,18 @@ export default class Avion03 extends Enemy {
 
 		this.ignorarDescenso = true;
 		// Obtener el jugador de la escena.
-        const player = scene.player;
-        const jugador = scene.jugador;
+        const player = this.scene.player.sprite;
+        const jugador = this.scene.jugador;
 
         //if (jugador)
         if (player)
 		{
         	//console.log("Jugador encontrado: ", this.jugador);
-        	console.log("Jugador encontrado: ", this.player);
+        	console.log("Jugador encontrado: ", this.scene.player);
             // Calcular dirección desde el enemigo al jugador (en el momento del spawn)
             //const direccionX = jugador.x - this.x;
             //const direccionY = jugador.y - this.y;
+        	console.log("Jugador X: ", player.x);
             const direccionX = player.x - this.x;
             const direccionY = player.y - this.y;
 

@@ -10,8 +10,8 @@ import CreditsScene from "./scenes/CreditsScene.js";
 const config = {
     //type: Phaser.AUTO,
     type: Phaser.WEBGL,
-    width: 240*5,
-    height: 210*5,
+    width: 240*4,
+    height: 210*4,
     physics: {
         default: 'arcade',
         arcade: {

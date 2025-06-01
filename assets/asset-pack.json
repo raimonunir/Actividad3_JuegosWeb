@@ -119,19 +119,6 @@
                 "key": "Avion03-sheet"
             },
             {
-                "url": "assets/enemies/Avion04.png",
-                "frameConfig": {
-                    "frameWidth": 32,
-                    "frameHeight": 32,
-                    "startFrame": 0,
-                    "endFrame": -1,
-                    "spacing": 0,
-                    "margin": 0
-                },
-                "type": "spritesheet",
-                "key": "Avion04"
-            },
-            {
                 "url": "assets/enemies/Avion04-sheet.png",
                 "frameConfig": {
                     "frameWidth": 31,
