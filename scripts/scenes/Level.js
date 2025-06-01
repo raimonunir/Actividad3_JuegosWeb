@@ -27,13 +27,20 @@ export default class Level extends Phaser.Scene {
 		const grupoEnemigos = this.add.container(0, 0);
 		capaJugable.add(grupoEnemigos);
 
+		// disparos
+		const disparos = this.add.container(-70.44221956458016, -61.11833469124678);
+		capaJugable.add(disparos);
+
 		this.grupoEnemigos = grupoEnemigos;
+		this.disparos = disparos;
 
 		this.events.emit("scene-awake");
 	}
 
 	/** @type {Phaser.GameObjects.Container} */
 	grupoEnemigos;
+	/** @type {Phaser.GameObjects.Container} */
+	disparos;
 
 	/* START-USER-CODE */
 

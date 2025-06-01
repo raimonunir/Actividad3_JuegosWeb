@@ -24,6 +24,15 @@
                     "label": "grupoEnemigos",
                     "displayName": "Grupo Enemigos",
                     "scope": "CLASS"
+                },
+                {
+                    "type": "Container",
+                    "id": "8e0a28d4-d6af-461f-921a-ad1ee8cfc6b7",
+                    "label": "disparos",
+                    "displayName": "Grupo Disparos",
+                    "scope": "CLASS",
+                    "x": -70.44221956458016,
+                    "y": -61.11833469124678
                 }
             ]
         }
