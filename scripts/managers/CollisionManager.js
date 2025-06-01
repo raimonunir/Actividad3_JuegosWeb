@@ -6,8 +6,8 @@
 
 export class CollisionManager
 {
-    constructor(scene)//, player, enemies, playerBullets = null, enemyBullets = null)
-    {
+    //constructor(scene)//, player, enemies, playerBullets = null, enemyBullets = null)
+    //{
         /*
             this.scene         = scene;
             this.player        = player;
@@ -18,15 +18,23 @@ export class CollisionManager
         
             //console.warn("Player X constructor (creado y listo)", scene.player.sprite.x);
             //console.warn("Enemy X constructor (no creados aún)", enemies);
-            this.scene         = scene;
-            this.player        = scene.player.sprite;
-            this.enemigos       = scene.enemyManager.enemies.list;
-            this.playerBullets = scene.playerBullets;
+      //      this.scene         = scene;
+        //    this.player        = scene.player.sprite;
+          //  this.enemigos       = scene.enemyManager.enemies.list;
+            //this.playerBullets = scene.playerBullets;
 
             //console.log("Colisión Jugador: ", this.player.body.enable);
             //console.log("Colisión Enemigos: ", this.enemigos.body.enable);
             //console.log("Colisión Bullets: ", this.playerBullets.body.enable);
             //this.enemyBullets  = enemyBullets;
+    //}
+    
+
+    constructor(scene, playerSprite, playerProjectilesGroup, enemiesGroup) {
+    this.scene = scene;
+    this.player = playerSprite;                      // ahora guardamos el Physics Sprite del jugador
+    this.enemigos = enemiesGroup;                    // guardamos el Phaser.Physics.Arcade.Group, no .list
+    this.playerBullets = playerProjectilesGroup;     // guardamos el Group donde se crean las balas
     }
 
     // Configuramos todas las colisiones necesarias.
@@ -42,7 +50,19 @@ export class CollisionManager
             this.handlePlayerEnemyCollision,  
             null,
             this 
-        );/*
+        );
+        
+        //BalasJugador - Enemigos
+        this.scene.physics.add.overlap(
+            this.playerBullets,
+            this.enemigos,
+            this.handleBulletEnemyCollision,
+            null,
+            this
+        );
+
+
+        /*
         // BalasJugador - Enemigos: cuando una bala del jugador toca a un enemigo, llamamos a handleBulletEnemy.
         // Usamos overlap porque la bala no “empuja” al enemigo, simplemente lo impacta.
         this.scene.physics.add.overlap(
@@ -71,7 +91,8 @@ export class CollisionManager
         if (enemySprite.active) {
             // Reproducir animación de explosión:
             if (typeof enemySprite.morir === 'function') {
-                enemySprite.recibirDanyo(enemySprite.vida); // mata de un golpe
+                //enemySprite.recibirDanyo(enemySprite.vida); // mata de un golpe
+                enemySprite.recibirDanyo(enemySprite.vida);
             } else {
                 enemySprite.disableBody(true, true);
             }
@@ -95,18 +116,19 @@ export class CollisionManager
 
     // Cuando una bala del jugador impacta a un enemigo.
     handleBulletEnemyCollision(bulletSprite, enemySprite) {
+        console.log("Colisión entre BalaJugador y Enemigo");
         // Desactivar la bala
         if (bulletSprite.active) {
             bulletSprite.disableBody(true, true);
         }
         // Desactivar o dañar al enemigo
         if (enemySprite.active) {
-            // Si tienes un método “takeDamage” en la clase Enemy, lo llamas:
             if (typeof enemySprite.takeDamage === 'function') {
-                enemySprite.takeDamage(1);
+                //enemySprite.takeDamage(1);
+                enemySprite.recibirDanyo(10);
             } else {
-            // Si no, eliminamos directamente:
-            enemySprite.disableBody(true, true);
+                 // Si no, eliminamos directamente:
+                enemySprite.disableBody(true, true);
             }
             // Efectos de VFX / sonido
             if (this.scene.vfxManager) {
@@ -124,6 +146,7 @@ export class CollisionManager
 
     // Cuando una bala enemiga impacta al jugador.
     handleEnemyBulletPlayerCollision(bulletSprite, playerSprite) {
+        console.log("Colisión entre BalaEnemigo y Jugador");
         // Desactivar la bala enemiga
         if (bulletSprite.active) {
             bulletSprite.disableBody(true, true);
