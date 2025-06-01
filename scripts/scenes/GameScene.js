@@ -4,6 +4,7 @@
 import Player from "./../player/Player.js"
 
 //Importamos los distintos managers que necesitaremos
+import {CollisionManager} from "./../managers/CollisionManager.js"
 import {SoundManager} from "./../managers/SoundManager.js"
 import { VFXsManager} from "../managers/VFXsManager.js";
 import {UIManager} from "../managers/UIManager.js";
@@ -37,6 +38,20 @@ export default class GameScene extends Phaser.Scene {
         this.projectiles = this.add.group();
         
         
+        // Instanciar CollisionManager
+        //    Le pasamos:
+        //    this                          la escena
+        //    this.player.sprite            cuerpo físico del jugador
+        //    this.projectiles              grupo de balas del jugador
+        //    this.enemiesGroup             grupo con el Enemy de prueba
+        /*this.collisionManager = new CollisionManager(
+            this,
+            this.player.sprite,
+            this.projectiles,
+            this.enemiesGroup
+        );
+        this.collisionManager.setupCollisions();*/
+
 
         this.setCamera();
         this.pintaUI();
@@ -80,6 +95,7 @@ export default class GameScene extends Phaser.Scene {
         //Llamamos al método update del player y otras instancias...
         this.player.update();
         this.uiManager.update();
+
 
         //Iteramos por los gameObjects contenidos en el grupo de disparos...
         for(var i=0;i<this.projectiles.getChildren().length;i++){
