@@ -12,10 +12,17 @@ export default class Player{
         this.currentEnergy=100;
         this.maxEnergy=100;
 
+        this.vidas=2;
+
         this.currentStatus="spawn";     //Esto es para hacer la movida de llevar el avión desde el fondo de la pantalla hasta su posición final con un tween guarrero de esos.
         this.playerControlActive=false;
         
         this.readyToShoot=true;
+        this.readyToBomb=true;
+
+        this.gameOver=false;
+        this.gameOverTime=1500;
+        this.gameOverText=false;
 
         this.invencible=false;
         this.maxTiempoInvencible=2500;
@@ -39,7 +46,8 @@ export default class Player{
         this.cursors = scene.input.keyboard.createCursorKeys();
         this.teclasExtra = scene.input.keyboard.addKeys({   //Añadimos teclas adicionales además de los cursores
             espacio: Phaser.Input.Keyboard.KeyCodes.SPACE,
-            control: Phaser.Input.Keyboard.KeyCodes.control
+            control: Phaser.Input.Keyboard.KeyCodes.CTRL,
+            a: Phaser.Input.Keyboard.KeyCodes.A
         });
 
         //REASIGNAMOS TECLAS PARA UNIFICAR
@@ -91,67 +99,103 @@ export default class Player{
             frameRate: this.frameRate,
             repeat: -1
         });
+
+        //Animación de muerte
+        scene.anims.create({
+            key: 'playerDeath',    
+            frames: scene.anims.generateFrameNumbers('playerAnims', { start: 14, end: 29 }),
+            frameRate: this.frameRate/3,
+            repeat: 0
+        });
+
+        
+
     }
 
     update() {
-        // Movimiento del jugador
         
+        //Siempre mostraremos las animaciones
         this.showPlayerAnimation();
-
-        //Si vamos a spawnear hacemos cosas...
-        /*
-        if(this.currentStatus=="spawn"){
-            this.currentStatus="idle";
-            this.tiempoInvencible=this.maxTiempoInvencible;
-            //Como montar un tween para mover al player desde el fondo de la pantalla
-            this.scene.tweens.add({
-                targets:this.sprite,
-                y:150,
-                duration:1000,
-                onStart: (tween, target, param) => {
-                    this.sprite.setCollideWorldBounds(false);
-                },
-                onComplete: (tween, target, param) => {
-                    
-                    this.playerControlActive=true;
-                    this.sprite.setCollideWorldBounds(true);
-                    
-                },
-            })
-        }
-        */
-        //Comprobamos si nos queda tiempo siendo invulnerables (this.tiempoInvencible)
-        if(this.tiempoInvencible>0){
+        
+        //Hacemos la comprobación de si el player está en estado "GameOver" (esto lo hacemos para que no existan cambios bruscos)
+        if(this.gameOver==false){
             
-            this.invencible=true;
-            
-            //console.log(this.tiempoInvencible);
-            //Para hacer el efecto ese de blinkeo vamos a intentar con valores pares/impares del tiempo actual.
-            if(Phaser.Math.RoundTo(this.tiempoInvencible)%2===0){   //si es par tintamos...
-                this.sprite.setTint(0xff0000);
+            //Comprobamos si nos queda tiempo siendo invulnerables (this.tiempoInvencible)
+            if(this.tiempoInvencible>0){
                 
-            }else{                                                  //Si no eliminamos el tint
-                this.sprite.clearTint();                                
+                this.invencible=true;
                 
+                //console.log(this.tiempoInvencible);
+                //Para hacer el efecto ese de blinkeo vamos a intentar con valores pares/impares del tiempo actual.
+                if(Phaser.Math.RoundTo(this.tiempoInvencible)%2===0){   //si es par tintamos...
+                    this.sprite.setTint(0xff0000);
+                    
+                }else{                                                  //Si no eliminamos el tint
+                    this.sprite.clearTint();                                
+                    
+                }
+                this.tiempoInvencible-=this.scene.game.loop.delta;      //Vamos restando tiempo de invencibilidad en cada ciclo de juego
+            }else{
+                this.invencible=false;
+                this.sprite.clearTint();
             }
-            this.tiempoInvencible-=this.scene.game.loop.delta;      //Vamos restando tiempo de invencibilidad en cada ciclo de juego
-        }else{
-            this.invencible=false;
-            this.sprite.clearTint();
-        }
 
-        this.getPlayerInputs();
+            this.getPlayerInputs();
+        }else{
+            
+            if(this.gameOverTime>0){
+                this.gameOverTime-=this.scene.game.loop.delta;
+            }else{
+                if(!this.gameOverText){ //Usamos un boolean a modo de flag para que esto sólo se ejecute una vez y discriminamos si todavía no ha aparecido el texto de "Game Over"
+                    
+                    this.sprite.setVisible(false);
+                    this.scene.uiManager.muestraSpriteGameOver();   //Llamamos a una función que hace toda la magia del texto "game over" con animación y todo
+                    this.scene.soundManager.stopMainTheme();
+                    this.scene.soundManager.playGameOverTheme();
+                    this.scene.uiManager.ocultaHealthBar();
+                    this.gameOverTime=5000;
+                    this.gameOverText=true;
+                    //this.scene.gameOver();
+                    
+                }
+            }
+        }
 
     }
 
     showPlayerAnimation(){   
         //Discriminamos por this.currentStatus
         switch(this.currentStatus){
+            /*
+            case "gameOverLoop":
+                //console.log("Estamos aquí");
+                //this.sprite.play("gameOverLoop",true);
+            break;
+            case "gameOver":
+                
+                this.sprite.play("gameOver",true).once('animationcomplete',() => {    //Al completar la animación...
+                    //this.scene.scene.start("MenuScene");
+                    this.currentStatus="gameOverLoop";
+                });
+                
+            break;
+            */
+            case "dead":   //en el estado "dead"...
+                
+                this.sprite.play("playerDeath",true).once('animationcomplete',() => {    //Al completar la animación...
+                    this.sprite.y=230;
+                    if(this.vidas>=0){
+                        this.currentStatus="spawn";
+                    }else{
+                        this.sprite.setVisible(false);
+                    }
+                });
+            break;
             case "spawn"://o en el estado spawn...
                 this.sprite.play("idle",true);
                 this.currentStatus="idle";
                 this.tiempoInvencible=this.maxTiempoInvencible;
-                //Como montar un tween para mover al player desde el fondo de la pantalla
+                //Montamos un tween para mover al player desde el fondo de la pantalla
                 this.scene.tweens.add({
                     targets:this.sprite,
                     y:this.sprite.y-75,  //150
@@ -216,6 +260,46 @@ export default class Player{
                     this.currentStatus="idleToTurnLeft";
                 });
             break;
+        }
+    }
+
+    takeDamage(damage){
+        //queda algo de tiempoInvencible?
+        if(this.tiempoInvencible>0){
+            return;     //Salimos y no hacemos nada más
+        }
+        
+        this.currentEnergy-=damage;                             //Le pegamos el chupetón de vida al player
+        this.tiempoInvencible=this.maxTiempoInvencible;         //asignamos tiempo de invencibilidad para que no nos enchufen más impactos
+
+        //Ponemos le feedbacck necesario
+        this.scene.vfxManager.playSmallExplosion(this.sprite.x,this.sprite.y);
+        this.scene.soundManager.playSmallExplosion();
+
+        this.scene.uiManager.refrescaBarraEnergia();            //reflejamos los cambios en la barra de energía
+
+        if(this.currentEnergy<=0){  //Nos han matado
+            this.scene.soundManager.playBigExplosion();
+            this.playerControlActive=false;
+            this.sprite.setVelocityX(0);
+            this.sprite.setVelocityY(0);
+            this.currentStatus="dead";
+            this.loseLife();
+            
+        }   
+    }
+
+    loseLife(){
+        
+        this.vidas-=1;
+
+        if(this.vidas<0){    //Ya no nos quedan vidas
+            this.gameOver=true;
+        }else{
+            this.currentEnergy=this.maxEnergy;
+            this.scene.uiManager.refrescaBarraEnergia();
+            this.scene.uiManager.refrescaVidas();
+            
         }
     }
 
@@ -308,5 +392,19 @@ export default class Player{
         if(this.KShoot.isUp && this.readyToShoot==false){
             this.readyToShoot=true;
         }
+
+        //TIRAMOS UNA BOMBA
+        if(this.KBomb.isDown && this.readyToBomb==true){
+            //Aquí meteremos toda la lógica para tirar una bomba (empezando por si tenemos bombas que tirar)
+            //Pero por el momento lo usaremos para comprobar cambios en la barra de vida
+            this.takeDamage(45);
+            this.readyToBomb=false;
+
+        }
+
+        if(this.KBomb.isUp && this.readyToBomb==false){
+            this.readyToBomb=true;
+        }
+
     }
 }
