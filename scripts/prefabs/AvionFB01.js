@@ -535,14 +535,33 @@ export default class AvionFB01 extends Enemy {
 			const config = this.configuracionArmas["Lanzadera"];
 			const misil = this.scene.physics.add.sprite(arma.x, arma.y, config.sprite);
 
-			if (!this.scene.jugador)
+			/*if (!this.scene.jugador)
+			{
+				console.warn('Jugador no encontrado.');
+				return;
+			}*/
+			
+			if (!this.scene.player)
 			{
 				console.warn('Jugador no encontrado.');
 				return;
 			}
+			else
+			{
+				//console.log("Jugador encontrado: ", this.scene.player);
+			}
+
+			/*
 			// Obtenemos la posición del jugador en este mismo instante para dirigir los misiles.
-			const jugador = this.scene.jugador; // Asegúrate de tener esta referencia accesible
+			const jugador = this.scene.jugador;
 			const objetivoX = jugador.x;
+			const objetivoY = jugador.y;
+			*/
+
+			const jugador = this.scene.player;
+			console.log("Jugador X: ", jugador.x);
+			const objetivoX = jugador.x;
+			console.log("Jugador Y: ", jugador.y);
 			const objetivoY = jugador.y;
 
 			// Calculamos la dirección hacia el jugador...

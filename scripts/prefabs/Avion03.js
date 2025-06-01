@@ -24,14 +24,19 @@ export default class Avion03 extends Enemy {
 
 		this.ignorarDescenso = true;
 		// Obtener el jugador de la escena.
+        const player = scene.player;
         const jugador = scene.jugador;
 
-        if (jugador)
+        //if (jugador)
+        if (player)
 		{
-        	console.log("Jugador encontrado: ", this.jugador);
+        	//console.log("Jugador encontrado: ", this.jugador);
+        	console.log("Jugador encontrado: ", this.player);
             // Calcular dirección desde el enemigo al jugador (en el momento del spawn)
-            const direccionX = jugador.x - this.x;
-            const direccionY = jugador.y - this.y;
+            //const direccionX = jugador.x - this.x;
+            //const direccionY = jugador.y - this.y;
+            const direccionX = player.x - this.x;
+            const direccionY = player.y - this.y;
 
             // Calcular módulo (distancia) para normalizar
             const distancia = Math.sqrt(direccionX * direccionX + direccionY * direccionY);
@@ -42,7 +47,8 @@ export default class Avion03 extends Enemy {
         }
 		else
 		{
-        	console.warn("Jugador perdido: ", this.jugador);
+        	//console.warn("Jugador perdido: ", this.jugador);
+        	console.warn("Jugador perdido: ", this.player);
 		}
 
 		//this.enemigoTipo = "normal";		// "normal", "miniboss" ó "boss".

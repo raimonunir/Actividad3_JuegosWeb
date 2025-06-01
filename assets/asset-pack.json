@@ -1,0 +1,257 @@
+{
+    "section1": {
+        "files": [
+            {
+                "url": "assets/enemies/108323-1.png",
+                "frameConfig": {
+                    "frameWidth": 16,
+                    "frameHeight": 16,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 1,
+                    "margin": 15
+                },
+                "type": "spritesheet",
+                "key": "108323-1"
+            },
+            {
+                "url": "assets/enemies/ArmaTorreta-sheet.png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "ArmaTorreta-sheet"
+            },
+            {
+                "url": "assets/enemies/ArmaTorreta01-Fill.png",
+                "frameConfig": {
+                    "frameWidth": 6,
+                    "frameHeight": 6,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "ArmaTorreta01-Fill"
+            },
+            {
+                "url": "assets/enemies/ArmaTorreta02-Fill.png",
+                "frameConfig": {
+                    "frameWidth": 5,
+                    "frameHeight": 5,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "ArmaTorreta02-Fill"
+            },
+            {
+                "url": "assets/enemies/Avion01-sheet.png",
+                "frameConfig": {
+                    "frameWidth": 15,
+                    "frameHeight": 13,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Avion01-sheet"
+            },
+            {
+                "url": "assets/enemies/Avion02-sheetF.png",
+                "frameConfig": {
+                    "frameWidth": 15,
+                    "frameHeight": 13,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Avion02-sheetF"
+            },
+            {
+                "url": "assets/enemies/Avion02-sheetL.png",
+                "frameConfig": {
+                    "frameWidth": 15,
+                    "frameHeight": 13,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Avion02-sheetL"
+            },
+            {
+                "url": "assets/enemies/Avion02-sheetR.png",
+                "frameConfig": {
+                    "frameWidth": 15,
+                    "frameHeight": 13,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Avion02-sheetR"
+            },
+            {
+                "url": "assets/enemies/Avion03-sheet.png",
+                "frameConfig": {
+                    "frameWidth": 15,
+                    "frameHeight": 12,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Avion03-sheet"
+            },
+            {
+                "url": "assets/enemies/Avion04.png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Avion04"
+            },
+            {
+                "url": "assets/enemies/Avion04-sheet.png",
+                "frameConfig": {
+                    "frameWidth": 31,
+                    "frameHeight": 26,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Avion04-sheet"
+            },
+            {
+                "url": "assets/enemies/Avion05FBa.png",
+                "type": "image",
+                "key": "Avion05FBa"
+            },
+            {
+                "url": "assets/enemies/AvionFB01.png",
+                "frameConfig": {
+                    "frameWidth": 224,
+                    "frameHeight": 128,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "AvionFB01"
+            },
+            {
+                "url": "assets/enemies/Disparo01-sheet8x6.png",
+                "frameConfig": {
+                    "frameWidth": 8,
+                    "frameHeight": 6,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Disparo01"
+            },
+            {
+                "url": "assets/enemies/Disparo02-sheet5x9.png",
+                "frameConfig": {
+                    "frameWidth": 5,
+                    "frameHeight": 9,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Disparo02"
+            },
+            {
+                "url": "assets/enemies/Disparo03-sheet6x6.png",
+                "frameConfig": {
+                    "frameWidth": 6,
+                    "frameHeight": 6,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Disparo03"
+            },
+            {
+                "url": "assets/enemies/enemies.json",
+                "type": "animation",
+                "key": "enemies"
+            },
+            {
+                "url": "assets/enemies/Explosion.png",
+                "frameConfig": {
+                    "frameWidth": 32,
+                    "frameHeight": 32,
+                    "startFrame": 0,
+                    "endFrame": -1,
+                    "spacing": 0,
+                    "margin": 0
+                },
+                "type": "spritesheet",
+                "key": "Explosion"
+            },
+            {
+                "url": "assets/enemies/Torreta Este.png",
+                "type": "image",
+                "key": "Torreta Este"
+            },
+            {
+                "url": "assets/enemies/Torreta Oeste.png",
+                "type": "image",
+                "key": "Torreta Oeste"
+            },
+            {
+                "url": "assets/enemies/Torreta Sur.png",
+                "type": "image",
+                "key": "Torreta Sur"
+            },
+            {
+                "url": "assets/enemies/Torreta SurEste.png",
+                "type": "image",
+                "key": "Torreta SurEste"
+            },
+            {
+                "url": "assets/enemies/Torreta SurOeste.png",
+                "type": "image",
+                "key": "Torreta SurOeste"
+            }
+        ]
+    },
+    "meta": {
+        "app": "Phaser Editor 2D - Asset Pack Editor",
+        "contentType": "phasereditor2d.pack.core.AssetContentType",
+        "url": "https://phasereditor2d.com",
+        "version": 2,
+        "showAllFilesInBlocks": false,
+        "visible": true
+    }
+}
