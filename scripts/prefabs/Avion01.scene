@@ -1,0 +1,84 @@
+{
+    "id": "583a786d-3425-44bb-8350-9e6aaf31e9b5",
+    "sceneType": "PREFAB",
+    "settings": {
+        "exportClass": true,
+        "autoImport": true,
+        "importFileExtension": true,
+        "preloadMethodName": "",
+        "preloadPackFiles": [],
+        "createMethodName": "",
+        "borderWidth": 16,
+        "borderHeight": 16
+    },
+    "displayList": [
+        {
+            "type": "ArcadeSprite",
+            "id": "993c39ba-44a3-498e-a7ff-14536f1b4dd7",
+            "label": "avion01_sheet0",
+            "texture": {
+                "key": "Avion01-sheet",
+                "frame": 0
+            },
+            "flipY": true,
+            "animationPlayMethod": 1,
+            "animationKey": "Avion01-Sheet",
+            "body.width": 15,
+            "body.height": 13
+        }
+    ],
+    "plainObjects": [],
+    "meta": {
+        "app": "Phaser Editor - Scene Editor",
+        "url": "https://phaser.io/editor",
+        "contentType": "phasereditor2d.core.scene.SceneContentType",
+        "version": 5
+    },
+    "prefabProperties": [
+        {
+            "name": "velocidadX",
+            "label": "VelocidadX",
+            "tooltip": "",
+            "defValue": 50,
+            "customDefinition": false,
+            "type": {
+                "id": "number"
+            }
+        },
+        {
+            "name": "velocidadY",
+            "label": "VelocidadY",
+            "tooltip": "",
+            "defValue": 20,
+            "customDefinition": false,
+            "type": {
+                "id": "number"
+            }
+        },
+        {
+            "name": "distancia",
+            "label": "Distancia",
+            "tooltip": "",
+            "defValue": 20,
+            "customDefinition": false,
+            "type": {
+                "id": "number"
+            }
+        },
+        {
+            "name": "enemigoTipo",
+            "label": "Tipo Enemigo",
+            "tooltip": "",
+            "defValue": "normal",
+            "customDefinition": false,
+            "type": {
+                "id": "option",
+                "options": [
+                    "normal",
+                    "miniboss",
+                    "boss"
+                ]
+            }
+        }
+    ]
+}
