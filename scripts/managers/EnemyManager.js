@@ -311,9 +311,9 @@ export class EnemyManager
                                                                         enemigoTipo: "miniboss"
                                                                     }, posCentral));
 
-
+                                    //120000                                    
         // Final Boss. Tipo 6.      1000 Al minuto se termina cada pantalla. Podrían ser oleadas hasta los 2min's que aparezca el boss.
-        this.scene.time.delayedCall(120000, () => this.spawnMultiples(1, 6, 2000, {
+        this.scene.time.delayedCall(1000, () => this.spawnMultiples(1, 6, 2000, {
                                                                         velocidadX: 50,
                                                                         velocidadY: 50,
                                                                         distancia: 100,
