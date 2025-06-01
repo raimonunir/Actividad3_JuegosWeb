@@ -15,8 +15,10 @@ const config = {
         BootScene,
         PreloadScene,
         MenuScene,
+        OptionsScene,
         GameScene,
         UIScene,
-        GameOverScene
+        GameOverScene,
+        CreditsScene
     ]
 };
