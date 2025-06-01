@@ -1,12 +1,10 @@
 //import { EnemyType01 } from './EnemyType01.js';
-import Avion01p from '../prefabs/Avion01p.js';
+import Avion01 from '../prefabs/Avion01.js';
 import Avion02 from '../prefabs/Avion02.js';
 import Avion03 from '../prefabs/Avion03.js';
 import Avion04 from '../prefabs/Avion04.js';
 import Avion05FB from '../prefabs/Avion05FB.js';
-//import { EnemyType03 } from './EnemyType03.js';
-//import { EnemyType04 } from './EnemyType04.js';
-//import { BossEnemy } from './BossEnemy.js';
+import AvionFB01 from '../prefabs/AvionFB01.js';
 
 export class EnemyManager
 {
@@ -57,8 +55,8 @@ export class EnemyManager
 
         switch (tipo)
         {
-            case 1: //prefabKey = "Avion01p"; break;
-                enemigo = new Avion01p(this.scene, spawnX, spawnY);
+            case 1: //prefabKey = "Avion01"; break;
+                enemigo = new Avion01(this.scene, spawnX, spawnY);
                 enemigo.velocidadX = 20;
                 enemigo.velocidadY = 20;
                 enemigo.distancia = 20;
@@ -88,7 +86,9 @@ export class EnemyManager
             case 5: //prefabKey = "Avion05FB"; break;
                 enemigo = new Avion05FB(this.scene, spawnX, spawnY);
             break;
-            //case 6: prefabKey = "EnemyBoss01"; break;
+            case 6:
+                enemigo = new AvionFB01(this.scene, spawnX, spawnY);
+            break;
         }
 
         //const enemigo = this.scene.add.prefab(prefabKey, spawnX, spawnY);
@@ -197,9 +197,123 @@ export class EnemyManager
                                                                         enemigoTipo: "normal"*/
                                                                     }));
 
-        
+        /*
         // Final Boss. Tipo 5.
-        this.scene.time.delayedCall(40000, () => this.spawnMultiples(1, 5, 2000, {
+        this.scene.time.delayedCall(30000, () => this.spawnMultiples(1, 5, 2000, {
+                                                                        velocidadX: 50,
+                                                                        velocidadY: 50,
+                                                                        distancia: 100,
+                                                                        enemigoTipo: "normal"
+                                                                    }, posCentral));
+        */
+        
+
+        this.scene.time.delayedCall(25000, () => this.spawnMultiples(10, 1, 1500, {velocidadY: 70}, posAleatoria));
+        
+        this.scene.time.delayedCall(28000, () => this.spawnMultiples(6, 3, 2500, {velocidadY: 100}, posAleatoria));
+        this.scene.time.delayedCall(28000, () => this.spawnMultiples(6, 3, 2500, {velocidadY: 100}, posAleatoria));
+
+        
+        this.scene.time.delayedCall(35000, () => this.spawnMultiples(5, 1, 1500, {velocidadY: 70}, posCentral));
+
+
+        this.scene.time.delayedCall(35000, () =>
+                            this.spawnMultiples(5, 2, 2000, {
+                                                                        velocidadX: 50,
+                                                                        velocidadY: 70,
+                                                                        distancia: 50,
+                                                                        enemigoTipo: "normal"
+                                                                    }, posIzquierda));
+        this.scene.time.delayedCall(35000, () =>
+                            this.spawnMultiples(5, 2, 2000, {
+                                                                        velocidadX: 50,
+                                                                        velocidadY: 70,
+                                                                        distancia: 50,
+                                                                        enemigoTipo: "normal"
+                                                                    }, posDerecha));
+
+
+
+        // Disparadores de Jugadores. Tipo 4.
+        this.scene.time.delayedCall(40000, () => 
+                            this.spawnMultiples(3, 4, 2000, {velocidadY: 70}, posIzquierda));
+        this.scene.time.delayedCall(40000, () => 
+                            this.spawnMultiples(3, 4, 2000, {velocidadY: 70}, posDerecha));
+
+        
+        this.scene.time.delayedCall(45000, () => 
+                            this.spawnMultiples(3, 4, 2000, {velocidadY: 30}, posCentral));
+
+        
+        this.scene.time.delayedCall(45000, () =>
+                            this.spawnMultiples(5, 2, 2000, {
+                                                                        velocidadX: 50,
+                                                                        velocidadY: 70,
+                                                                        distancia: 50,
+                                                                        enemigoTipo: "normal"
+                                                                    }));
+
+                                                                    
+        this.scene.time.delayedCall(45000, () =>
+                            this.spawnMultiples(5, 2, 2000, {
+                                                                        velocidadX: 50,
+                                                                        velocidadY: 70,
+                                                                        distancia: 50,
+                                                                        enemigoTipo: "normal"
+                                                                    }));
+
+        this.scene.time.delayedCall(45000, () => 
+                            this.spawnMultiples(3, 4, 2000, {velocidadY: 50}));
+                            
+                            
+
+        this.scene.time.delayedCall(50000, () =>
+                            this.spawnMultiples(5, 3, 3000, {
+                                                                        velocidadX: 50,
+                                                                        velocidadY: 70,
+                                                                        distancia: 50,
+                                                                        enemigoTipo: "normal"
+                                                                    }));
+
+                                                                    
+        this.scene.time.delayedCall(50000, () =>
+                            this.spawnMultiples(5, 3, 3000, {
+                                                                        velocidadX: 50,
+                                                                        velocidadY: 70,
+                                                                        distancia: 50,
+                                                                        enemigoTipo: "normal"
+                                                                    }));
+
+                            
+        this.scene.time.delayedCall(55000, () =>
+                            this.spawnMultiples(2, 4, 2000, {
+                                                                        velocidadX: 50,
+                                                                        velocidadY: 40,
+                                                                        distancia: 50,
+                                                                        enemigoTipo: "normal"
+                                                                    }, posAleatoria));
+
+                            
+        this.scene.time.delayedCall(55000, () =>
+                            this.spawnMultiples(2, 4, 2000, {
+                                                                        velocidadX: 50,
+                                                                        velocidadY: 40,
+                                                                        distancia: 50,
+                                                                        enemigoTipo: "normal"
+                                                                    }, posAleatoria));
+
+                            
+        this.scene.time.delayedCall(60000, () =>
+                            this.spawnMultiples(1, 4, 2000, {
+                                                                        velocidadX: 50,
+                                                                        velocidadY: 50,
+                                                                        distancia: 50,
+                                                                        enemigoTipo: "miniboss"
+                                                                    }, posCentral));
+
+
+        // Final Boss. Tipo 6.      1000 Al minuto se termina cada pantalla. Podrían ser oleadas hasta los 2min's que aparezca el boss.
+        this.scene.time.delayedCall(120000, () => this.spawnMultiples(1, 6, 2000, {
                                                                         velocidadX: 50,
                                                                         velocidadY: 50,
                                                                         distancia: 100,
@@ -252,8 +366,8 @@ export class EnemyManager
         // Spawnea enemigos alternando tipos
         for (let i = 0; i < 6; i++)
         {
-            //const tipo = i % 2 === 0 ? 1 : 2; // Alterna entre Avion01p y Avion02
-            const tipo = Phaser.Math.RND.pick(tipos); // Alterna entre Avion01p, Avion02, Avion03 y Avion04
+            //const tipo = i % 2 === 0 ? 1 : 2; // Alterna entre Avion01 y Avion02
+            const tipo = Phaser.Math.RND.pick(tipos); // Alterna entre Avion01, Avion02, Avion03 y Avion04
             this.scene.time.delayedCall(i * 1000, () =>
             {
                 this.spawnEnemy(tipo);
