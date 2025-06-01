@@ -14,20 +14,17 @@
     "displayList": [
         {
             "type": "ArcadeSprite",
-            "id": "0e5f8e85-d768-4888-913b-01713e744e36",
-            "label": "avion040",
+            "id": "fece5a6a-3a3a-461c-9343-1e420a95fb3a",
+            "label": "avion04_sheet0",
             "texture": {
-                "key": "Avion04",
+                "key": "Avion04-sheet",
                 "frame": 0
             },
+            "flipY": true,
             "animationPlayMethod": 1,
-            "animationKey": "Avion04",
-            "bodyGeometry": 0,
-            "radius": 10,
-            "body.width": 128,
-            "body.height": 128,
-            "body.offset.x": 6,
-            "body.offset.y": 2
+            "animationKey": "Avion04-Sheet",
+            "body.width": 31,
+            "body.height": 26
         }
     ],
     "plainObjects": [],

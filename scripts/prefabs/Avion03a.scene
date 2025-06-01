@@ -1,5 +1,5 @@
 {
-    "id": "5f6f3784-afda-4481-bbd1-f09e052c86c5",
+    "id": "b1ad3917-b2b8-459e-a550-66070c35f68f",
     "sceneType": "PREFAB",
     "settings": {
         "exportClass": true,
@@ -14,17 +14,17 @@
     "displayList": [
         {
             "type": "ArcadeSprite",
-            "id": "e16faa10-5311-4fef-9c87-7a2b637ff46a",
-            "label": "avion02_sheetF0",
+            "id": "f089b08c-e4ea-492c-a598-6a895ebc1212",
+            "label": "avion03_sheet0",
             "texture": {
-                "key": "Avion02-sheetF",
+                "key": "Avion03-sheet",
                 "frame": 0
             },
             "flipY": true,
             "animationPlayMethod": 1,
-            "animationKey": "Avion02-SheetF",
+            "animationKey": "Avion03",
             "body.width": 15,
-            "body.height": 13
+            "body.height": 12
         }
     ],
     "plainObjects": [],
@@ -49,7 +49,7 @@
             "name": "velocidadY",
             "label": "VelocidadY",
             "tooltip": "",
-            "defValue": 20,
+            "defValue": 40,
             "customDefinition": false,
             "type": {
                 "id": "number"

@@ -1,5 +1,5 @@
 {
-    "id": "5f6f3784-afda-4481-bbd1-f09e052c86c5",
+    "id": "a7020044-c69f-4137-b71c-39c644ee8242",
     "sceneType": "PREFAB",
     "settings": {
         "exportClass": true,
@@ -8,23 +8,22 @@
         "preloadMethodName": "",
         "preloadPackFiles": [],
         "createMethodName": "",
-        "borderWidth": 32,
-        "borderHeight": 32
+        "borderWidth": 224,
+        "borderHeight": 128
     },
     "displayList": [
         {
             "type": "ArcadeSprite",
-            "id": "e16faa10-5311-4fef-9c87-7a2b637ff46a",
-            "label": "avion02_sheetF0",
+            "id": "186ddab9-d1a8-4f08-8054-a8b657ffe798",
+            "label": "avionFB010",
             "texture": {
-                "key": "Avion02-sheetF",
+                "key": "AvionFB01",
                 "frame": 0
             },
-            "flipY": true,
             "animationPlayMethod": 1,
-            "animationKey": "Avion02-SheetF",
-            "body.width": 15,
-            "body.height": 13
+            "animationKey": "AvionFB01",
+            "body.width": 224,
+            "body.height": 128
         }
     ],
     "plainObjects": [],
@@ -69,7 +68,7 @@
             "name": "enemigoTipo",
             "label": "Tipo Enemigo",
             "tooltip": "",
-            "defValue": "normal",
+            "defValue": "boss",
             "customDefinition": false,
             "type": {
                 "id": "option",

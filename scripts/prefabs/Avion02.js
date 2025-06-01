@@ -10,12 +10,12 @@ import { Enemy } from '../enemies/Enemy.js';
 export default class Avion02 extends Enemy {
 
 	constructor(scene, x, y, texture, frame) {
-		super(scene, x ?? 0, y ?? 0, texture || "Avion02-p1", frame);
+		super(scene, x ?? 0, y ?? 0, texture || "Avion02-sheetF", frame ?? 0);
 
+		this.flipY = true;
 		scene.physics.add.existing(this, false);
-		this.body.setOffset(6, 2);
-		this.body.setCircle(10);
-		this.play("Avion02p");
+		this.body.setSize(15, 13, false);
+		this.play("Avion02-SheetF");
 
 		/* START-USER-CTR-CODE */
 		// Write your code here.
@@ -37,7 +37,7 @@ export default class Avion02 extends Enemy {
 	}
 
 	/** @type {number} */
-	velocidadX = 50;
+	velocidadX = 20;
 	/** @type {number} */
 	velocidadY = 20;
 	/** @type {number} */
@@ -69,7 +69,7 @@ export default class Avion02 extends Enemy {
 		this.movimientoHorizontal();
 	}
 
-	
+
 	start()
 	{
 		// Se llama cuando todo está listo, incluso las propiedades del editor

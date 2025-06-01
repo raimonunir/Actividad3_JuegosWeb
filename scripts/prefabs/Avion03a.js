@@ -83,6 +83,7 @@ export default class Avion03 extends Enemy {
 
 		this.configurarTipo();
 	}
+
 	/* END-USER-CODE */
 }
 

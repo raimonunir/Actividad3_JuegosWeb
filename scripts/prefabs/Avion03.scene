@@ -1,5 +1,5 @@
 {
-    "id": "b1ad3917-b2b8-459e-a550-66070c35f68f",
+    "id": "8e7e95fc-b1ff-4783-bcb9-be3baef465dd",
     "sceneType": "PREFAB",
     "settings": {
         "exportClass": true,
@@ -14,20 +14,17 @@
     "displayList": [
         {
             "type": "ArcadeSprite",
-            "id": "7946fcaf-697c-42f9-b7ac-f27fc8103c75",
+            "id": "3ccd3799-830e-4386-b15f-8b475fd352b9",
             "label": "avion03_sheet0",
             "texture": {
                 "key": "Avion03-sheet",
                 "frame": 0
             },
+            "flipY": true,
             "animationPlayMethod": 1,
             "animationKey": "Avion03",
-            "bodyGeometry": 0,
-            "radius": 10,
-            "body.width": 128,
-            "body.height": 128,
-            "body.offset.x": 6,
-            "body.offset.y": 2
+            "body.width": 15,
+            "body.height": 12
         }
     ],
     "plainObjects": [],

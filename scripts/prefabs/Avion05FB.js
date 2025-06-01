@@ -330,6 +330,15 @@ export default class Avion05FB extends Enemy {
 	{
 		const bala = this.scene.physics.add.sprite(arma.x, arma.y, 'Disparo01', 0);
 		bala.setVelocityY(200); // Velocidad hacia abajo, puedes ajustar o hacerla dependiente del arma
+		
+		// Añadiremos un Update personalizado a la bala para destruirlas si se salen fuera de pantalla.
+		bala.update = () =>
+		{
+			if (bala.y > this.scene.cameras.main.height + bala.height)
+			{
+				bala.destroy();
+			}
+		};
 	}
 	/* END-USER-CODE */
 }
