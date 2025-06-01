@@ -4,7 +4,7 @@
     BalasEnemigo  - Jugador
  */
 
-export default class CollisionManager {
+export class CollisionManager {
     constructor(scene, player, enemies, playerBullets, enemyBullets) {
             this.scene         = scene;
             this.player        = player;
@@ -114,18 +114,17 @@ export default class CollisionManager {
             } else {
                 playerSprite.disableBody(true, true);
             }
-
-            //Si el jugador “muere”, vamos a GameOver
-            if (!playerSprite.active) {
-                this.scene.scene.start('GameOverScene');
-            }
-
             // Efectos de VFX / sonido
             if (this.scene.vfxManager) {
                 this.scene.vfxManager.playSmallExplosion(playerSprite.x, playerSprite.y);
             }
             if (this.scene.soundManager) {
-            this.scene.soundManager.playMidExplosion();
+            this.scene.soundManager.playBulletImpact();
+            //Si el jugador “muere”, vamos a GameOver
+            if (!playerSprite.active) {
+                this.scene.scene.start('GameOverScene');
+            }
+            
             }
         }
     }

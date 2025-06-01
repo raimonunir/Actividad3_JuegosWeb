@@ -3,15 +3,20 @@ export class VFXsManager{
         this.scene=scene;
         this.gameObject;
 
-        this.shadowVFX;
+        //Animación para la explosión pequeña
+        this.scene.anims.create({
+            key: 'SmallExplosion',    
+            frames: this.scene.anims.generateFrameNumbers('VFXExplosionSmall', { start: 0, end: 7 }),
+            frameRate: 50,
+            repeat: 0
+        });
     }
 
-    //Función para poner la sombra al player (o a los enemigos). Este vfx lo dejaremos inactivo y sólo lo activaremos cuando detectemos un overlapping con las nubes... a ver qué tal sale
-    //Recibe como argumento el gameObject al que enchufarle la sombra
-    vfxImpacto(x,y){
-        console.log("El objeto a ponerle sombra es:");
-        console.log(objeto);
-        this.shadowVFX = objeto.postFX.addShadow(objeto.sprite.x,objeto,sprite.y);
-        this.shadowVFX.padding=1;
+    //Reproducimos el efectito ese de recibir daño
+    playSmallExplosion(x,y){
+        const smallExplosion = this.scene.physics.add.sprite(x,y,"");
+        smallExplosion.play("SmallExplosion",true).once('animationcomplete',() => {    //Una vez que se reproduzca destruímos el gameObject
+            smallExplosion.destroy();
+        });
     }
 }
