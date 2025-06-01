@@ -2,6 +2,7 @@
 
 //Importamos enemigos y player
 import Player from "./../player/Player.js"
+import { EnemyManager } from '../manager/EnemyManager.js';
 
 //Importamos los distintos managers que necesitaremos
 import {SoundManager} from "./../managers/SoundManager.js"
@@ -34,6 +35,9 @@ export default class GameScene extends Phaser.Scene {
         // Inicializar jugador, enemigos, balas, etc.
         this.player = new Player(this,120,230); //120 x 240
         
+        
+        this.enemyManager = new EnemyManager(this);
+        this.time.delayedCall(1000, () => this.enemyManager.spawnNivel01());
 
         this.setCamera();
         this.pintaUI();
