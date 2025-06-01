@@ -1,9 +1,11 @@
 import BootScene from "./scenes/BootScene.js";
 import PreloadScene from "./scenes/PreloadScene.js";
 import MenuScene from "./scenes/MenuScene.js";
+import OptionsScene from "./scenes/OptionsScene.js";
 import GameScene from "./scenes/GameScene.js";
 import GameOverScene from "./scenes/GameOverScene.js";
 import UIScene from "./ui/UIScene.js";
+import CreditsScene from "./scenes/CreditsScene.js";
 
 const config = {
     //type: Phaser.AUTO,
@@ -22,9 +24,11 @@ const config = {
         BootScene,
         PreloadScene,
         MenuScene,
+        OptionsScene,
         GameScene,
         UIScene,
-        GameOverScene
+        GameOverScene,
+        CreditsScene,
     ]
 };
 

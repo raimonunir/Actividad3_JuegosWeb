@@ -45,13 +45,32 @@ export default class GameScene extends Phaser.Scene {
 
         this.createTileMap();
 
+        // update music volume
+        if (this.registry.get('musicVolume') != null) {
+            this.soundManager.updateMusicVolume(this.registry.get('musicVolume'));
+        } else {
+            this.registry.set('musicVolume', this.soundManager.musicVolumeValue);
+        }
 
-
+        // update sfx volume
+        if (this.registry.get('sfxVolume') != null) {
+            this.soundManager.updateSFXVolume(this.registry.get('sfxVolume'));
+        } else {
+            this.registry.set('sfxVolume', this.soundManager.sFXVolume);
+        }
         
         
+        this.escKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     }
 
     update() {
+
+
+        if(Phaser.Input.Keyboard.JustDown(this.escKey)){
+            this.soundManager.stopMainTheme();
+            this.scene.start('MenuScene');
+        }
+
         // Lógica principal del juego
         
         //Aumentamos la distancia recorrida

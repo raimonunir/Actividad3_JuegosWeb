@@ -1,15 +1,23 @@
 export class SoundManager {
     constructor(scene) {
         this.scene = scene;
+        
+        // volumes
+        this.musicVolumeValue = 0.4;
+        this.sFXVolume = 1.0;
 
+        // sfx
         this.playerShootSFX = this.scene.sound.add("playerShoot");
         this.enemyShootSFX = this.scene.sound.add("enemyShoot");
-        this.mainThemeSFX = this.scene.sound.add("mainTheme",{volume: 0.4});
         this.smallExplosion = this.scene.sound.add("smallExplosion");
         this.midExplosion = this.scene.sound.add("midExplosion");
         this.bigExplosion = this.scene.sound.add("bigExplosion");
         this.bulletImpact = this.scene.sound.add("bulletImpact");
         this.getItem = this.scene.sound.add("getItem");
+        
+        
+        // music
+        this.mainThemeSFX = this.scene.sound.add("mainTheme",{volume: this.musicVolumeValue});
         this.gameOver = this.scene.sound.add("gameOverTheme");
         this.victory = this.scene.sound.add("victoryTheme");
     }
@@ -43,16 +51,55 @@ export class SoundManager {
         */
     }
 
+
     //Suena el tema principal
     playMainTheme(){
         if(this.mainThemeSFX.isPlaying){
             //No hacemos nada
         }else{
             //Si no está sonando llamamos al método play(). También le establecemos el volumen para que no tralle demasiado. Esto estaría bien ponerlo como una opción a cambiar
-            //this.mainThemeSFX.setVolume(0.4);
+            this.mainThemeSFX.setVolume(this.musicVolumeValue);
             this.mainThemeSFX.loop=true;      //Queremos que esto esté sonando en bucle hasta que lo paremos nosotros              
             this.mainThemeSFX.play();
         }
+    }
+
+
+
+    updateMusicVolume(newVolume) {
+
+        // check input
+        if(newVolume > 1 || newVolume < 0){
+            console.error("volume out of range");
+            return;
+        }
+
+        this.musicVolumeValue = newVolume;
+
+        // set volume
+        this.mainThemeSFX.setVolume(this.musicVolumeValue);
+        this.gameOver.setVolume(this.musicVolumeValue);
+        this.victory.setVolume(this.musicVolumeValue);
+    }
+
+    updateSFXVolume(newVolume){
+
+        // check input
+        if(newVolume > 1 || newVolume < 0){
+            console.error("volume out of range");
+            return;
+        }
+
+        this.sFXVolume = newVolume;
+
+        // set volume
+        this.playerShootSFX.setVolume(this.sFXVolume);
+        this.midExplosion.setVolume(this.sFXVolume);
+        this.bulletImpact.setVolume(this.sFXVolume);
+        this.enemyShootSFX.setVolume(this.sFXVolume);
+        this.smallExplosion.setVolume(this.sFXVolume);
+        this.bigExplosion.setVolume(this.sFXVolume);
+        this.getItem.setVolume(this.sFXVolume);
     }
 
     stopMainTheme(){
@@ -66,7 +113,7 @@ export class SoundManager {
             //No hacemos nada
         }else{
             //Si no está sonando llamamos al método play(). También le establecemos el volumen para que no tralle demasiado. Esto estaría bien ponerlo como una opción a cambiar
-            this.gameOver.setVolume(0.4);
+            this.gameOver.setVolume(this.musicVolumeValue);
             this.gameOver.loop=false;      //Sólo debería sonar una vez
             this.gameOver.play();
         }
@@ -77,7 +124,7 @@ export class SoundManager {
             //No hacemos nada
         }else{
             //Si no está sonando llamamos al método play(). También le establecemos el volumen para que no tralle demasiado. Esto estaría bien ponerlo como una opción a cambiar
-            this.victory.setVolume(0.4);
+            this.victory.setVolume(this.musicVolumeValue);
             this.victory.loop=false;      //Sólo debería sonar una vez
             this.victory.play();
         }
