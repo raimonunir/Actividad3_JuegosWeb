@@ -24,6 +24,10 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create() {
+        
+        // Inicializar jugador, enemigos, balas, etc.
+        this.player = new Player(this,120,230); //120 x 240
+
         //Instanciamos los distintos managers
         this.soundManager = new SoundManager(this);
         this.vfxManager = new VFXsManager(this);
@@ -31,8 +35,7 @@ export default class GameScene extends Phaser.Scene {
         //Establecemos los límites dentro del canvas
         this.physics.world.setBounds(0,0,240,210,true,true);   
         this.projectiles = this.add.group();
-        // Inicializar jugador, enemigos, balas, etc.
-        this.player = new Player(this,120,230); //120 x 240
+        
         
 
         this.setCamera();
@@ -73,8 +76,10 @@ export default class GameScene extends Phaser.Scene {
         //Aumentamos la distancia recorrida
         this.distanciaRecorrida+=this.aumentoDistancia;
         //console.log(this.distanciaRecorrida);
-        //Llamamos al método update del player
+        
+        //Llamamos al método update del player y otras instancias...
         this.player.update();
+        this.uiManager.update();
 
         //Iteramos por los gameObjects contenidos en el grupo de disparos...
         for(var i=0;i<this.projectiles.getChildren().length;i++){
@@ -134,5 +139,12 @@ export default class GameScene extends Phaser.Scene {
 
     pintaUI(){
         this.uiManager.ponScores();
+        this.uiManager.ponHealthBar();
+        this.uiManager.ponVidas();
+    }
+
+    gameOver(){
+        this.player="";
+        alert("Eres un manco y un mierdas!");
     }
 }
