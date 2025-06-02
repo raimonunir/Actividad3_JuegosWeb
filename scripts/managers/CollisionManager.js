@@ -74,7 +74,8 @@
             );
             //}
 
-        
+            
+            //this.physics.add.overlap(this.projectiles, this.enemyManager.torretas, this.disparosVSTorretas, null, this);
             this.scene.physics.add.overlap(
                 this.playerBullets,
                 this.torretas,
