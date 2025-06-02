@@ -232,7 +232,16 @@ export default class GameScene extends Phaser.Scene
             }
     
             torreta.destroy();
+            this.uiManager.sumaScoreP1(100);
             console.warn("TORRETA DESTRUIDA");
+            const quedan = this.enemyManager.torretas.countActive(true);
+            if (quedan === 0) 
+            {
+                // Ya no hay ninguna torreta viva: pasar a escena de victoria
+                console.warn("NO QUEDAN MAS TORRETAS; JEFE MUERTO, ESCENA WIN");
+                
+                this.scene.start('CreditsScene');
+            }
         }
         else
         {

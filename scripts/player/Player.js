@@ -396,7 +396,7 @@ export default class Player{
            this.scene.soundManager.playPlayerShoot();
            this.readyToShoot=false;
            
-           this.scene.uiManager.sumaScoreP1(100);   //Esto es una churriprueba para comprobar que aumenta correctamente la puntuación del score
+           //this.scene.uiManager.sumaScoreP1(100);   //Esto es una churriprueba para comprobar que aumenta correctamente la puntuación del score
         }
 
         if(this.KShoot.isUp && this.readyToShoot==false){
