@@ -208,11 +208,6 @@
                 //playerSprite.takeDamage(45);
                 this.playerInstance.takeDamage(45);
             }
-            else
-            {
-                    // Si no existe ese método, simplemente desactivamos al jugador:
-                    //playerSprite.disableBody(true, true);
-            }
              // Si muere el jugador, ir a GameOver
             if (!playerSprite.active)
             {

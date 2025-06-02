@@ -194,10 +194,10 @@ export default class GameScene extends Phaser.Scene
     }
     
     //this.physics.add.overlap(this.projectiles, this.enemyManager.torretas, this.disparosVSTorretas, null, this);
-    disparosVSTorretas(bullet, torretas)
+    disparosVSTorretas(bullet, torreta)
     {
         console.error("TORRETA!");
-        console.error("Vida de la Torreta antes del Impacto: ", torretas.vida);
+        console.error("Vida de la Torreta antes del Impacto: ", torreta.vida);
         
         // Desactivar la bala
     if (bullet.active)
@@ -214,24 +214,24 @@ export default class GameScene extends Phaser.Scene
             // VFX
             if (this.vfxManager)
             {
-                this.vfxManager.playBigExplosion(torreta.x, torreta.y);
+                this.vfxManager.playSmallExplosion(torreta.x, torreta.y);
             }
     
             // SFX
             if (this.soundManager)
             {
-                this.soundManager.playExplosion();
+                this.soundManager.playSmallExplosion();
             }
     
             // Destruiremos el sprite y lo sustituiremos por la zona de torreta destruida.
-            torreta.destroy();
-    
+            
             // Pararemos el timer de disparo que se le ha asignado a todas las armas.
             if (torreta.timerDisparo)
             {
                 torreta.timerDisparo.remove(false);
             }
     
+            torreta.destroy();
             console.warn("TORRETA DESTRUIDA");
         }
         else
