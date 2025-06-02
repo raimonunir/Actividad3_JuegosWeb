@@ -2,13 +2,14 @@
 
 //Importamos enemigos y player
 import Player from "./../player/Player.js"
+import Bullet from "./../bullets/Bullet.js"
 import { EnemyManager } from '../managers/EnemyManager.js';
 
 //Importamos los distintos managers que necesitaremos
-import {SoundManager} from "./../managers/SoundManager.js"
-import { VFXsManager} from "../managers/VFXsManager.js";
-import {UIManager} from "../managers/UIManager.js";
-import {CollisionManager} from "./../managers/CollisionManager.js"
+import { SoundManager } from "./../managers/SoundManager.js"
+import { VFXsManager } from "../managers/VFXsManager.js";
+import { UIManager } from "../managers/UIManager.js";
+import { CollisionManager } from "./../managers/CollisionManager.js"
 
 export default class GameScene extends Phaser.Scene
 {
@@ -39,11 +40,28 @@ export default class GameScene extends Phaser.Scene
         this.vfxManager = new VFXsManager(this);
         this.uiManager = new UIManager(this);
         //Establecemos los límites dentro del canvas
-        this.physics.world.setBounds(0,0,240,210,true,true);   
-        this.projectiles = this.add.group();
+        this.physics.world.setBounds(0,0,240,210,true,true);
+
+        //this.projectiles = this.add.group();
+        this.projectiles = this.physics.add.group(
+        {
+            classType: Bullet//,
+            //runChildUpdate: true
+        });
         
         
         this.enemyManager = new EnemyManager(this);
+
+        this.collisionManager = new CollisionManager(
+            this,
+            this.player,       
+            this.projectiles,         // el grupo PHYSICS de balas del jugador
+            this.enemyManager.enemies, // el grupo PHYSICS de enemigos (todavía vacío)
+            this.enemyManager.disparos,
+            this.enemyManager.torretas
+        );
+        this.collisionManager.setupCollisions();
+
         this.time.delayedCall(1000, () => this.enemyManager.spawnNivel01());
 
         
@@ -60,8 +78,8 @@ export default class GameScene extends Phaser.Scene
         this.collisionManager.setupCollisions();
 */
         
-        this.collisionManager = new CollisionManager(this);
-        this.collisionManager.setupCollisions();
+        //this.collisionManager = new CollisionManager(this);
+        //this.collisionManager.setupCollisions();
 
         this.setCamera();
         this.pintaUI();
@@ -74,10 +92,12 @@ export default class GameScene extends Phaser.Scene
         
         
 		// collider
-		this.physics.add.collider(this.player.sprite, this.enemyManager.enemies, this.jugadorVSenemigos, undefined, this);
+		//this.physics.add.collider(this.player.sprite, this.enemyManager.enemies, this.jugadorVSenemigos, undefined, this);
 
         
-		this.physics.add.collider(this.player.sprite, this.enemyManager.disparos, this.jugadorVSdisparos, undefined, this);
+		//this.physics.add.collider(this.player.sprite, this.enemyManager.disparos, this.jugadorVSdisparos, undefined, this);
+        
+        this.physics.add.overlap(this.projectiles, this.enemyManager.torretas, this.disparosVSTorretas, null, this);
         
     }
 
@@ -90,7 +110,7 @@ export default class GameScene extends Phaser.Scene
         //console.log(this.distanciaRecorrida);
         //Llamamos al método update del player
         this.player.update();
-        
+
         this.enemyManager.update();
 
         //Iteramos por los gameObjects contenidos en el grupo de disparos...
@@ -172,4 +192,82 @@ export default class GameScene extends Phaser.Scene
     {
         console.error("IMPACTO!");
     }
+    
+    //this.physics.add.overlap(this.projectiles, this.enemyManager.torretas, this.disparosVSTorretas, null, this);
+    disparosVSTorretas(bullet, torretas)
+    {
+        console.error("TORRETA!");
+        console.error("Vida de la Torreta antes del Impacto: ", torretas.vida);
+        
+        // Desactivar la bala
+    if (bullet.active)
+        {
+            bullet.disableBody(true, true);
+        }
+    
+        // Restaremos la vida correspondiente al daño de las Bullets.
+        //torreta.vida -= bullet.danyo;
+        torreta.vida -= 10;
+    
+        if (torreta.vida <= 0)
+        {
+            // VFX
+            if (this.vfxManager)
+            {
+                this.vfxManager.playBigExplosion(torreta.x, torreta.y);
+            }
+    
+            // SFX
+            if (this.soundManager)
+            {
+                this.soundManager.playExplosion();
+            }
+    
+            // Destruiremos el sprite y lo sustituiremos por la zona de torreta destruida.
+            torreta.destroy();
+    
+            // Pararemos el timer de disparo que se le ha asignado a todas las armas.
+            if (torreta.timerDisparo)
+            {
+                torreta.timerDisparo.remove(false);
+            }
+    
+            console.warn("TORRETA DESTRUIDA");
+        }
+        else
+        {
+            // VFX
+            if (this.vfxManager)
+            {
+                this.vfxManager.playSmallExplosion(torreta.x, torreta.y);
+            }
+            // SFX
+            if (this.soundManager)
+            {
+                this.soundManager.playBulletImpact();
+            }
+        }
+    }
+
+    /*
+    handlePlayerBulletTorretasCollision(bulletSprite, torretasEnemigo)
+    {
+        console.log("Colisión entre BalaJugador y Torreta");
+        // Desactivar la bala
+        if (bulletSprite.active)
+        {
+            bulletSprite.disableBody(true, true);
+        }
+
+        // Efectos de VFX
+        if (this.scene.vfxManager)
+        {
+            this.scene.vfxManager.playSmallExplosion(torretasEnemigo.x, torretasEnemigo.y);
+        }
+        // Efectos de SFX
+        if (this.scene.soundManager)
+        {
+            this.scene.soundManager.playBulletImpact();
+        }
+    }*/
 }
