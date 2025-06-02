@@ -263,11 +263,16 @@ export default class Player{
         }
     }
 
-    takeDamage(damage){
+    takeDamage(damage)
+    {
+        //console.log(`Daño: ${damage}. VIDA antes del golpe: ${this.currentEnergy}`);
+
         //queda algo de tiempoInvencible?
-        if(this.tiempoInvencible>0){
+        if(this.tiempoInvencible>0)
+        {
             return;     //Salimos y no hacemos nada más
         }
+        
         
         this.currentEnergy-=damage;                             //Le pegamos el chupetón de vida al player
         this.tiempoInvencible=this.maxTiempoInvencible;         //asignamos tiempo de invencibilidad para que no nos enchufen más impactos
@@ -278,7 +283,8 @@ export default class Player{
 
         this.scene.uiManager.refrescaBarraEnergia();            //reflejamos los cambios en la barra de energía
 
-        if(this.currentEnergy<=0){  //Nos han matado
+        if(this.currentEnergy<=0)
+        {   //Nos han matado
             this.scene.soundManager.playBigExplosion();
             this.playerControlActive=false;
             this.sprite.setVelocityX(0);
@@ -287,19 +293,23 @@ export default class Player{
             this.loseLife();
             
         }   
+
+        //console.log(`VIDA después del golpe: ${this.currentEnergy}`);
     }
 
-    loseLife(){
-        
+    loseLife()
+    {
         this.vidas-=1;
 
-        if(this.vidas<0){    //Ya no nos quedan vidas
+        if(this.vidas<0)
+            {    //Ya no nos quedan vidas
             this.gameOver=true;
-        }else{
+        }
+        else
+        {
             this.currentEnergy=this.maxEnergy;
             this.scene.uiManager.refrescaBarraEnergia();
             this.scene.uiManager.refrescaVidas();
-            
         }
     }
 

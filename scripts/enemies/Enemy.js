@@ -30,12 +30,15 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite
     velocidadY = 40;
     distancia = 20;
 
-    vida = 1;
+    vida = 10;
     vidaMiniBoss = 50;
     vidaBoss = 100;
 	/** @type {"normal"|"miniboss"|"boss"} */
 	enemigoTipo = "normal";
     ignorarDescenso = false;
+
+    anchoPantalla = 240;
+    altoPantalla = 210;
 
     preUpdate(time, delta)
     {
@@ -50,10 +53,10 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite
 		
         
         // Cuando el enemigo se salga de la pantalla por abajo, será destruido evitando gasto de memoria.
-        if (this.scene && this.y > this.scene.cameras.main.height + this.height && !this.apareciendo)
+        if (this.scene && this.y > this.altoPantalla + this.height && !this.apareciendo)
         //if (this.y > this.scene.cameras.main.height - 200)
         {
-            console.log("Enemy.js - preUpdate() - destroy()");
+            //console.log("Enemy.js - preUpdate() - destroy()");
             this.destroy();
             //this.morir();
         }
@@ -76,20 +79,27 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite
 
     morir()
     {
-        console.log("Enemy.js - morir()");
+        //console.log("Enemy.js - morir()");
 
-        this.anims.play("Explosion");
+        
+        // Creamos la explosión en la posición del enemigo.
+        const explosion = this.scene.add.sprite(this.x, this.y, "ExplosionAtlas");
+        explosion.play("Explosion");
+        //this.anims.play("Explosion");
 
-        this.once("animationcomplete", () =>
+        explosion.once("animationcomplete", () =>
         {
-            this.destroy();
+            explosion.destroy();
         });
+
+        // Destruimos el enemigo original
+        this.destroy();
     }
 
     configurarTipo()
     {
         //console.log("Enemy.js - configurarTipo()");
-		console.log("Tipo de enemigo: ", this.enemigoTipo);
+		//console.log("Tipo de enemigo: ", this.enemigoTipo);
 
         switch (this.enemigoTipo)
         {

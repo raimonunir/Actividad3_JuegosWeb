@@ -2,6 +2,7 @@
 
 //Importamos enemigos y player
 import Player from "./../player/Player.js"
+import Bullet from "./../bullets/Bullet.js"
 import { EnemyManager } from '../managers/EnemyManager.js';
 
 //Importamos los distintos managers que necesitaremos
@@ -39,11 +40,28 @@ export default class GameScene extends Phaser.Scene
         this.vfxManager = new VFXsManager(this);
         this.uiManager = new UIManager(this);
         //Establecemos los límites dentro del canvas
-        this.physics.world.setBounds(0,0,240,210,true,true);   
-        this.projectiles = this.add.group();
+        this.physics.world.setBounds(0,0,240,210,true,true);
+
+        //this.projectiles = this.add.group();
+        this.projectiles = this.physics.add.group(
+        {
+            classType: Bullet//,
+            //runChildUpdate: true
+        });
         
         
         this.enemyManager = new EnemyManager(this);
+
+        this.collisionManager = new CollisionManager(
+            this,
+            this.player,       
+            this.projectiles,         // el grupo PHYSICS de balas del jugador
+            this.enemyManager.enemies, // el grupo PHYSICS de enemigos (todavía vacío)
+            this.enemyManager.disparos,
+            this.enemyManager.torretas
+        );
+        this.collisionManager.setupCollisions();
+
         this.time.delayedCall(1000, () => this.enemyManager.spawnNivel01());
 
         
@@ -60,8 +78,8 @@ export default class GameScene extends Phaser.Scene
         this.collisionManager.setupCollisions();
 */
         
-        this.collisionManager = new CollisionManager(this);
-        this.collisionManager.setupCollisions();
+        //this.collisionManager = new CollisionManager(this);
+        //this.collisionManager.setupCollisions();
 
         this.setCamera();
         this.pintaUI();
@@ -74,10 +92,10 @@ export default class GameScene extends Phaser.Scene
         
         
 		// collider
-		this.physics.add.collider(this.player.sprite, this.enemyManager.enemies, this.jugadorVSenemigos, undefined, this);
+		//this.physics.add.collider(this.player.sprite, this.enemyManager.enemies, this.jugadorVSenemigos, undefined, this);
 
         
-		this.physics.add.collider(this.player.sprite, this.enemyManager.disparos, this.jugadorVSdisparos, undefined, this);
+		//this.physics.add.collider(this.player.sprite, this.enemyManager.disparos, this.jugadorVSdisparos, undefined, this);
         
     }
 
@@ -90,7 +108,7 @@ export default class GameScene extends Phaser.Scene
         //console.log(this.distanciaRecorrida);
         //Llamamos al método update del player
         this.player.update();
-        
+
         this.enemyManager.update();
 
         //Iteramos por los gameObjects contenidos en el grupo de disparos...

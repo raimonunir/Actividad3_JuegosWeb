@@ -38,6 +38,7 @@ export default class AvionFB01 extends Enemy {
 		this.armaVida = 30;
 		// Armas laterales disparando al Sur.
 		const armaIzq_Sur = scene.physics.add.sprite(this.x - 0, this.y, 'Torreta Sur', 0);
+		this.scene.enemyManager.torretas.add(armaIzq_Sur);
 		armaIzq_Sur.vida = this.armaVida;
 		armaIzq_Sur.setImmovable(true);
 		armaIzq_Sur.tipoArma = "Metralleta";
@@ -45,6 +46,7 @@ export default class AvionFB01 extends Enemy {
 		this.armas.push(armaIzq_Sur);
 
 		const armaDer_Sur = scene.physics.add.sprite(this.x + 0, this.y, 'Torreta Sur', 0);
+		this.scene.enemyManager.torretas.add(armaDer_Sur);
 		armaDer_Sur.vida = this.armaVida;
 		armaDer_Sur.setImmovable(true);
 		armaDer_Sur.tipoArma = "Metralleta";
@@ -53,6 +55,7 @@ export default class AvionFB01 extends Enemy {
 		
 		// Armas de las Alas disparando a cada lado "SurEste y SurOeste".
 		const armaIzqCen_SurOeste = scene.physics.add.sprite(this.x - 0, this.y, 'Torreta SurOeste', 0);
+		this.scene.enemyManager.torretas.add(armaIzqCen_SurOeste);
 		armaIzqCen_SurOeste.vida = this.armaVida;
 		armaIzqCen_SurOeste.setImmovable(true);
 		armaIzqCen_SurOeste.tipoArma = "Metralleta";
@@ -60,6 +63,7 @@ export default class AvionFB01 extends Enemy {
 		this.armas.push(armaIzqCen_SurOeste);
 
 		const armaDerCen_SurEste = scene.physics.add.sprite(this.x + 0, this.y, 'Torreta SurEste', 0);
+		this.scene.enemyManager.torretas.add(armaDerCen_SurEste);
 		armaDerCen_SurEste.vida = this.armaVida;
 		armaDerCen_SurEste.setImmovable(true);
 		armaDerCen_SurEste.tipoArma = "Metralleta";
@@ -68,6 +72,7 @@ export default class AvionFB01 extends Enemy {
 
 		// Armas centrales disparando al Sur.
 		const armaCenSup_Sur = scene.physics.add.sprite(this.x - 0, this.y, 'Torreta Sur', 0);
+		this.scene.enemyManager.torretas.add(armaCenSup_Sur);
 		armaCenSup_Sur.vida = this.armaVida;
 		armaCenSup_Sur.setImmovable(true);
 		armaCenSup_Sur.tipoArma = "Canyon";
@@ -75,6 +80,7 @@ export default class AvionFB01 extends Enemy {
 		this.armas.push(armaCenSup_Sur);
 
 		const armaCenInf_Sur = scene.physics.add.sprite(this.x + 0, this.y, 'Torreta Sur', 0);
+		this.scene.enemyManager.torretas.add(armaCenInf_Sur);
 		armaCenInf_Sur.vida = this.armaVida;
 		armaCenInf_Sur.setImmovable(true);
 		armaCenInf_Sur.tipoArma = "Metralleta";
@@ -83,6 +89,7 @@ export default class AvionFB01 extends Enemy {
 
 		// Armas centrales superiores disparando al SurEste y SurOeste.
 		const armaCenSup_SurEste = scene.physics.add.sprite(this.x - 0, this.y, 'Torreta SurEste', 0);
+		this.scene.enemyManager.torretas.add(armaCenSup_SurEste);
 		armaCenSup_SurEste.vida = this.armaVida;
 		armaCenSup_SurEste.setImmovable(true);
 		armaCenSup_SurEste.tipoArma = "Metralleta";
@@ -90,6 +97,7 @@ export default class AvionFB01 extends Enemy {
 		this.armas.push(armaCenSup_SurEste);
 
 		const armaCenInf_SurOeste = scene.physics.add.sprite(this.x + 0, this.y, 'Torreta SurOeste', 0);
+		this.scene.enemyManager.torretas.add(armaCenInf_SurOeste);
 		armaCenInf_SurOeste.vida = this.armaVida;
 		armaCenInf_SurOeste.setImmovable(true);
 		armaCenInf_SurOeste.tipoArma = "Metralleta";
@@ -98,6 +106,7 @@ export default class AvionFB01 extends Enemy {
 		
 		// Lanzaderas cemtrañes superiores.
 		const lanzaderaDerecha = scene.physics.add.sprite(this.x - 0, this.y, 'Torreta Sur', 0);
+		this.scene.enemyManager.torretas.add(lanzaderaDerecha);
 		lanzaderaDerecha.vida = this.armaVida;
 		lanzaderaDerecha.setImmovable(true);
 		lanzaderaDerecha.tipoArma = "Lanzadera";
@@ -105,11 +114,20 @@ export default class AvionFB01 extends Enemy {
 		this.armas.push(lanzaderaDerecha);
 
 		const lanzaderaIzquierda = scene.physics.add.sprite(this.x + 0, this.y, 'Torreta Sur', 0);
+		this.scene.enemyManager.torretas.add(lanzaderaIzquierda);
 		lanzaderaIzquierda.vida = this.armaVida;
 		lanzaderaIzquierda.setImmovable(true);
 		lanzaderaIzquierda.tipoArma = "Lanzadera";
 		lanzaderaIzquierda.direccionDisparo = "Sur";
 		this.armas.push(lanzaderaIzquierda);
+		
+		/*
+		// Comprobaciones de físicas con las armas.
+		console.log(lanzaderaIzquierda.body); // Veremos un objeto ArcadeBody.
+		console.log("Body activo:", lanzaderaIzquierda.body.enable);       // true = físicas activadas.
+		console.log("Body in world:", lanzaderaIzquierda.body.world != null); // true = parte del mundo físico.
+		console.log("Inmovible:", lanzaderaIzquierda.body.immovable);      // true = no se mueve con colisiones.
+		*/
 
 		this.configuracionArmas =
 		{
@@ -122,13 +140,13 @@ export default class AvionFB01 extends Enemy {
 			Canyon:
 			{
 				delay: 3000,
-				sprite: 'Disparo01', //'Disparo_Canyon',
+				sprite: 'Disparo03', //'Disparo_Canyon',
 				velocidad: 150
 			},
 			Lanzadera:
 			{
 				delay: 1500,
-				sprite: 'Disparo01', //'Misil',
+				sprite: 'Disparo02', //'Misil',
 				velocidad: 100
 			}
 		};
@@ -254,10 +272,19 @@ export default class AvionFB01 extends Enemy {
     		this.armas[9].setScale(armaEscalaX, armaEscalaY);
 
 			//this.body.checkCollision.none = true;
-			if (this.armas[0].body)
+			/*if (this.armas[0].body)
 			{
     			this.armas[0].body.checkCollision.none = true;
-			}
+			}*/
+
+			/*
+			// Comprobaciones de físicas con las armas.
+			console.log(this.armas[9].body); // Veremos un objeto ArcadeBody.
+			console.log("Body activo:", this.armas[9].body.enable);       // true = físicas activadas.
+			console.log("Body in world:", this.armas[9].body.world != null); // true = parte del mundo físico.
+			console.log("Inmovible:", this.armas[9].body.immovable);      // true = no se mueve con colisiones.
+			console.log("Colisiones desactivadas:", this.armas[9].body.checkCollision.none);	// Desactiva las colisiones.
+			*/
 		}
 		/*
 		// AQUÍ HAY UN CAMBIO!!!
@@ -382,7 +409,7 @@ export default class AvionFB01 extends Enemy {
 					onComplete: () =>
 					{
         				// 5.1.- Activaremos colisiones.
-						this.body.checkCollision.none = false;
+//						this.body.checkCollision.none = false;
 						// Activamos las colisiones de las armas.
 						this.colisionesArmas(true);
 						// Ya pasó la zona de destrucción. xD
@@ -448,6 +475,8 @@ export default class AvionFB01 extends Enemy {
 		//disparo.setVelocityY(200); // Velocidad hacia abajo, puedes ajustar o hacerla dependiente del arma
 		const disparo = this.scene.physics.add.sprite(arma.x, arma.y, config.sprite || 'Disparo01', 0);
 		
+		this.scene.enemyManager.disparos.add(disparo);
+
 		let velX = 0;
 		let velY = config.velocidad;
 		
@@ -539,8 +568,8 @@ export default class AvionFB01 extends Enemy {
 
 		if (arma.tipoArma === "Lanzadera")
 		{
-			const config = this.configuracionArmas["Lanzadera"];
-			const misil = this.scene.physics.add.sprite(arma.x, arma.y, config.sprite);
+			//const config = this.configuracionArmas["Lanzadera"];
+			//const misil = this.scene.physics.add.sprite(arma.x, arma.y, config.sprite);
 
 			/*if (!this.scene.jugador)
 			{
@@ -579,8 +608,14 @@ export default class AvionFB01 extends Enemy {
 			const dirY = direccionY / magnitud;
 
 			// Aplicamos la velocidad al misil...
-			misil.body.velocity.x = dirX * config.velocidad;
-			misil.body.velocity.y = dirY * config.velocidad;
+			disparo.body.velocity.x = dirX * config.velocidad;
+			disparo.body.velocity.y = dirY * config.velocidad;
+
+			// Calcular el ángulo en radianes hacia el jugador
+			const angulo = Phaser.Math.Angle.Between(arma.x, arma.y, objetivoX, objetivoY);
+
+			// Rotar el sprite hacia ese ángulo
+			disparo.rotation = angulo + Phaser.Math.DegToRad(-90);
 		}
 
 
@@ -620,7 +655,7 @@ export default class AvionFB01 extends Enemy {
 					this.x < -this.width ||
 					this.x > this.anchoPantalla + this.width)
 				{
-					console.warn("CAÑÓN PUFFF!!!");
+					//console.warn("CAÑÓN PUFFF!!!");
 					this.destroy();
 				}
 			};
@@ -640,7 +675,7 @@ export default class AvionFB01 extends Enemy {
 					this.x < -this.width ||
 					this.x > this.anchoPantalla + this.width)
 				{
-					console.warn("BALA PUFFF!!!");
+					//console.warn("BALA PUFFF!!!");
 					this.destroy();
 				}
 			};
@@ -649,13 +684,13 @@ export default class AvionFB01 extends Enemy {
 
 		// Agregaremos las balas a un grupo para gestionar mejor las colisiones y destrucciones.
 		//this.disparos.add(disparo);
-		this.scene.enemyManager.disparos.add(disparo);
+		//this.scene.enemyManager.disparos.add(disparo);
 	}
 
 	//*
 	explotar()
 	{
-		console.log("HE EXPLOTADO Y ENTRADO.");
+		//console.log("HE EXPLOTADO Y ENTRADO.");
 		this.explotado = true;
 		this.setActive(false);
 		this.setVisible(false);
