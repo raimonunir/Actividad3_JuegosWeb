@@ -30,12 +30,15 @@ export class CollisionManager
     //}
     
 
-    constructor(scene, playerSprite, playerProjectilesGroup, enemiesGroup) {
-    this.scene = scene;
-    this.player = playerSprite;                      // ahora guardamos el Physics Sprite del jugador
-    this.enemigos = enemiesGroup;                    // guardamos el Phaser.Physics.Arcade.Group, no .list
-    this.playerBullets = playerProjectilesGroup;     // guardamos el Group donde se crean las balas
+    constructor(scene, playerInstance, playerProjectilesGroup, enemiesGroup, enemyBulletsGroup = null) {
+        this.scene          = scene;
+        this.playerInstance = playerInstance;              // Guardamos la instancia de Player completa
+        this.playerSprite   = playerInstance.sprite;       // Y también el Phaser.Physics.Arcade.Sprite
+        this.playerBullets  = playerProjectilesGroup;      // Grupo donde están las balas que dispara tu jugador
+        this.enemigos       = enemiesGroup;                // Grupo con todos los enemigos (Physics Group)
+        this.enemyBullets   = enemyBulletsGroup;           // Grupo con las balas enemigas
     }
+
 
     // Configuramos todas las colisiones necesarias.
     // Se debe invocar en la escena del juego después de instancciar todos los grupos.
@@ -45,7 +48,7 @@ export class CollisionManager
         //console.warn("Enemy X", this.enemies);
         // Player - Enemigos: si el jugador choca con un enemigo, se llama a handlePlayerEnemy.
         this.scene.physics.add.collider(
-            this.player,
+            this.playerSprite,
             this.enemigos,
             this.handlePlayerEnemyCollision,  
             null,
@@ -60,7 +63,15 @@ export class CollisionManager
             null,
             this
         );
-
+        if (this.enemyBullets) {
+            this.scene.physics.add.overlap(
+            this.enemyBullets,
+            this.playerSprite,
+            this.handleEnemyBulletPlayerCollision,
+            null,
+            this
+        );
+    }
 
         /*
         // BalasJugador - Enemigos: cuando una bala del jugador toca a un enemigo, llamamos a handleBulletEnemy.
@@ -71,8 +82,8 @@ export class CollisionManager
             this.handleBulletEnemyCollision,
             null,
             this
-        );
-
+        );*/
+        /*
         // BalasEnemigo - Jugador: si una bala enemiga choca con el jugador, llamamos a handleEnemyBulletPlayer.
         this.scene.physics.add.overlap(
             this.enemyBullets,
@@ -86,32 +97,31 @@ export class CollisionManager
     // Cuando el jugador choca con un enemigo.
     handlePlayerEnemyCollision(playerSprite, enemySprite)
     {
-        console.error("Colisión.");//, this.player.x);
+        console.log("Colisión JUGADOR CHOCA ENEMIGO. COLLISIONMANAGEEEEEEEEEEEEEEEER");//, this.player.x);
         // Desactivar o quitar el enemigo
         if (enemySprite.active) {
             // Reproducir animación de explosión:
-            if (typeof enemySprite.morir === 'function') {
+            if (typeof enemySprite.recibirDanyo === "function") {
                 //enemySprite.recibirDanyo(enemySprite.vida); // mata de un golpe
                 enemySprite.recibirDanyo(enemySprite.vida);
             } else {
-                enemySprite.disableBody(true, true);
+                //enemySprite.disableBody(true, true);
             }
         }
 
         // Quitamos energía o matamos al jugador
-        if (playerSprite.active) {
-            // Supongamos que el Player.js maneja su propia vida:
-            if (typeof playerSprite.takeDamage === 'function') {
-            playerSprite.takeDamage(1); // 1 punto de vida, por ejemplo
-            } else {
-                // Si no existe ese método, simplemente desactivamos al jugador:
-                playerSprite.disableBody(true, true);
-            }
-            // Si el jugador “muere”, podrías saltar a GameOver:
-            if (!playerSprite.active) {
-                this.scene.scene.start('GameOverScene');
-            }
+        
+        if (this.playerInstance && typeof this.playerInstance.takeDamage === "function") {
+            this.playerInstance.takeDamage(45); 
+        } else {
+            // Si no existe ese método, simplemente desactivamos al jugador:
+            //playerSprite.disableBody(true, true);
         }
+        // Si el jugador “muere”, podrías saltar a GameOver:
+        if (!playerSprite.active) {
+            //this.scene.scene.start('GameOverScene');
+        }
+        
     }
 
     // Cuando una bala del jugador impacta a un enemigo.
@@ -139,11 +149,11 @@ export class CollisionManager
             }
             // Sumar puntuación:
             if (this.scene.uiManager && typeof this.scene.uiManager.sumaScoreP1 === 'function') {
-                this.scene.uiManager.sumaScoreP1(10);
+                this.scene.uiManager.sumaScoreP1(100);
             }
         }
     }
-
+    /*
     // Cuando una bala enemiga impacta al jugador.
     handleEnemyBulletPlayerCollision(bulletSprite, playerSprite) {
         console.log("Colisión entre BalaEnemigo y Jugador");
@@ -171,5 +181,32 @@ export class CollisionManager
             
             }
         }
+    }*/
+
+    handleEnemyBulletPlayerCollision(enemyBullet, playerSprite) {
+        console.log("¡Bala enemiga impactó al jugador!");
+        // Desactivar o destruir la bala enemiga
+        if (enemyBullet.active) {
+            enemyBullet.disableBody(true, true);
+        }
+        // Aplicar daño al jugador
+        if (this.playerInstance && typeof this.playerInstance.takeDamage === "function") {
+            playerSprite.takeDamage(45); 
+        } else {
+                // Si no existe ese método, simplemente desactivamos al jugador:
+                //playerSprite.disableBody(true, true);
+        }
+         // Si muere el jugador, ir a GameOver
+        if (!playerSprite.active) {
+                this.scene.scene.start("GameOverScene");
+        }
+        /* // VFX / SFX en el jugador
+        if (this.scene.vfxManager &&typeof this.scene.vfxManager.vfxImpacto === "function") {
+            this.scene.vfxManager.vfxImpacto(playerSprite.x, playerSprite.y);
+        }
+        if (this.scene.soundManager && typeof this.scene.soundManager.playMidExplosion === "function") {
+            this.scene.soundManager.playMidExplosion();
+        }*/
+        
     }
 }

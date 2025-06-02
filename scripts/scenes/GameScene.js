@@ -52,22 +52,23 @@ export default class GameScene extends Phaser.Scene
 
         this.collisionManager = new CollisionManager(
             this,
-            this.player.sprite,       // el sprite físico del jugador
+            this.player,       
             this.projectiles,         // el grupo PHYSICS de balas del jugador
-            this.enemyManager.enemies // el grupo PHYSICS de enemigos (todavía vacío)
+            this.enemyManager.enemies, // el grupo PHYSICS de enemigos (todavía vacío)
+            this.enemyManager.disparos
         );
         this.collisionManager.setupCollisions();
 
 
         this.time.delayedCall(1000, () => this.enemyManager.spawnNivel01());
 
-        this.physics.add.overlap(
+        /*this.physics.add.overlap(
             this.enemyManager.disparos,
             this.player.sprite,
             this.collisionManager.handleEnemyBulletPlayerCollision,
             null,
             this.collisionManager
-        );
+        );*/
         //console.warn("Player X", this.player.sprite.x);
         //console.warn("Enemy X", this.enemyManager.enemies[0].x);
         // Colisiones.
