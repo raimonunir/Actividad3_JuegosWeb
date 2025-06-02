@@ -197,8 +197,14 @@
         handleEnemyBulletPlayerCollision(enemyBullet, playerSprite)
         {
             console.log("¡Bala enemiga impactó al jugador!");
+            console.log("[DEBUG] handleEnemyBulletPlayerCollision entró. PlayerEnergy antes:", this.playerInstance.currentEnergy);
+             if (!enemyBullet.active) return;   // Si la bala ya no está activa, salimos
+            //enemyBullet.disableBody(true, true);
+            console.log("[DEBUG] Desactivé la bala enemiga");
+            this.playerInstance.takeDamage(45);
+            console.log("[DEBUG] After takeDamage, PlayerEnergy es:", this.playerInstance.currentEnergy);
             // Desactivar o destruir la bala enemiga
-            if (enemyBullet.active)
+            /*if (enemyBullet.active)
             {
                 enemyBullet.disableBody(true, true);
             }
@@ -207,11 +213,12 @@
             {
                 //playerSprite.takeDamage(45);
                 this.playerInstance.takeDamage(45);
-            }
+            }*/
              // Si muere el jugador, ir a GameOver
             if (!playerSprite.active)
             {
-                    this.scene.scene.start("GameOverScene");
+                    console.log("¡FIN DEL JUEGO");
+                    //this.scene.scene.start("GameOverScene");
             }
             /* // VFX / SFX en el jugador
             if (this.scene.vfxManager &&typeof this.scene.vfxManager.vfxImpacto === "function") {
